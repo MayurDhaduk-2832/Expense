@@ -7,7 +7,7 @@ import '../../res/strings.dart';
 import '../../widgets/custom_button.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -28,9 +28,9 @@ class _AccountScreenState extends State<AccountScreen> {
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(4),
-                  height: SizerUtil.deviceType == DeviceType.tablet ? 150 : 84,
-                  width: SizerUtil.deviceType == DeviceType.tablet ? 150 : 84,
+                  padding: const EdgeInsets.all(4),
+                  height: Device.screenType == ScreenType.tablet ? 150 : 84,
+                  width: Device.screenType == ScreenType.tablet ? 150 : 84,
                   decoration: BoxDecoration(
                       border:
                           Border.all(color: AppColors.buttonColor, width: 2),
@@ -40,9 +40,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: const DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(StringRes.tempModelImage)
-                        ),
+                            fit: BoxFit.cover,
+                            image: AssetImage(StringRes.tempModelImage)),
                         color: AppColors.greyColor.withOpacity(0.20)),
                   ),
                 ),
@@ -73,7 +72,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
                 Image.asset(
                   StringRes.editIcon,
-                  width: SizerUtil.deviceType == DeviceType.tablet ? 50 : 32,
+                  width: Device.screenType == ScreenType.tablet ? 50 : 32,
                 )
               ],
             ),
@@ -172,7 +171,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   width: 35,
                   height: 5,
                   decoration: BoxDecoration(
-                      color: Color(0xFFD3BDFF),
+                      color: const Color(0xFFD3BDFF),
                       borderRadius: BorderRadius.circular(30)),
                 ),
                 SizedBox(
@@ -209,7 +208,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         },
                         title: "No",
                         textColor: AppColors.buttonColor,
-                        buttonColor: Color(0xFFEEE5FF),
+                        buttonColor: const Color(0xFFEEE5FF),
                       ),
                     ),
                     SizedBox(width: 3.w),
@@ -218,7 +217,11 @@ class _AccountScreenState extends State<AccountScreen> {
                       child: CommonButton(
                           onTap: () {
                             SharedPreferencesConst.setAppPin('');
-                            Navigator.pushNamedAndRemoveUntil(context,"/onBoard",(route) => false,);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              "/onBoard",
+                              (route) => false,
+                            );
                           },
                           title: "Yes"),
                     ),

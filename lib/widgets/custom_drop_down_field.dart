@@ -4,14 +4,19 @@ import 'package:expense_tracker/res/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../res/strings.dart';
-
 class CustomDropDownField extends StatelessWidget {
   final String title;
-  String? selectedValue;
-  Function(String?)? onChange;
+  final String? selectedValue;
+  final Function(String?)? onChange;
   final List<String> itemList;
-  CustomDropDownField({Key? key,required this.title,this.onChange,required this.itemList,this.selectedValue}) : super(key: key);
+
+  CustomDropDownField({
+    super.key,
+    required this.title,
+    this.onChange,
+    required this.itemList,
+    this.selectedValue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,53 +26,51 @@ class CustomDropDownField extends StatelessWidget {
               color: const Color(0xFF91919F),
               fontWeight: FontWeight.w400,
               fontSize: SizeUtil.f13),
-          contentPadding: EdgeInsets.symmetric(vertical:SizerUtil.deviceType == DeviceType.tablet ? 2.2.h : 2.h,),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: Device.screenType == ScreenType.tablet ? 2.2.h : 2.h,
+          ),
           enabledBorder: border,
           border: border,
           disabledBorder: border,
           errorBorder: border,
           focusedBorder: border,
-          focusedErrorBorder: border
-      ),
+          focusedErrorBorder: border),
       isExpanded: true,
       hint: Text(
         title,
         style: TextStyle(fontSize: SizeUtil.f13),
       ),
-      style: TextStyle(
-          fontSize: SizeUtil.f13,
-        color: AppColors.textColor
-      ),
-      icon: Padding(
-        padding: EdgeInsets.only(right: 2.w),
-        child: Image.asset(
-          StringRes.arrowDownIcon,color:const Color(0xFF91919F),
-          height: 6.sp,
-        ),
-      ),
-      buttonPadding: EdgeInsets.only(left: SizerUtil.deviceType == DeviceType.tablet ? 3.w : 1.w, right: 10),
-      dropdownDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      style: TextStyle(fontSize: SizeUtil.f13, color: AppColors.textColor),
+      // icon: Padding(
+      //   padding: EdgeInsets.only(right: 2.w),
+      //   child: Image.asset(
+      //     StringRes.arrowDownIcon,color:const Color(0xFF91919F),
+      //     height: 6.sp,
+      //   ),
+      // ),
+      // buttonPadding: EdgeInsets.only(left: Device.screenType == ScreenType.tablet ? 3.w : 1.w, right: 10),
+      // dropdownDecoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(15),
+      // ),
       value: selectedValue,
       items: itemList
-          .map((item) =>
-          DropdownMenuItem<String>(
-            value: item,
-            child: Text(
-              item,
-              style: TextStyle(
-                fontSize: SizeUtil.f13,
-              ),
-            ),
-          ))
+          .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: TextStyle(
+                    fontSize: SizeUtil.f13,
+                  ),
+                ),
+              ))
           .toList(),
       validator: (value) {
         if (value == null) {
           return 'Please select $title';
         }
+        return null;
       },
-      onChanged:onChange,
+      onChanged: onChange,
       onSaved: onChange,
     );
     //   GestureDetector(
@@ -96,10 +99,9 @@ class CustomDropDownField extends StatelessWidget {
     // );
   }
 
-  OutlineInputBorder border = OutlineInputBorder(
+  final OutlineInputBorder border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(16),
     borderSide:
-    const BorderSide(width: 1, color: Color.fromRGBO(241, 241, 250, 1)),
+        const BorderSide(width: 1, color: Color.fromRGBO(241, 241, 250, 1)),
   );
-
 }

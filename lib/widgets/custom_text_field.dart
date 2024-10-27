@@ -7,19 +7,17 @@ import '../res/strings.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  bool? obscureText;
-  VoidCallback? onTap;
+  final bool? obscureText;
+  final VoidCallback? onTap;
   final String? Function(String?)? validator;
 
-
   CustomTextField(
-      {Key? key,
+      {super.key,
       required this.controller,
       required this.hintText,
       this.obscureText,
       this.validator,
-      this.onTap})
-      : super(key: key);
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,7 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder border = OutlineInputBorder(
+  final OutlineInputBorder border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(16),
     borderSide:
         const BorderSide(width: 1, color: Color.fromRGBO(241, 241, 250, 1)),

@@ -10,14 +10,13 @@ import '../../res/strings.dart';
 import '../../widgets/back_button.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+  const SettingScreen({super.key});
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +27,11 @@ class _SettingScreenState extends State<SettingScreen> {
             height: 7.h,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 5.33.w,right: 2.w),
+            padding: EdgeInsets.only(left: 5.33.w, right: 2.w),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: CommonBackButton(),
                 ),
@@ -43,24 +42,25 @@ class _SettingScreenState extends State<SettingScreen> {
               ],
             ),
           ),
-          SizedBox(height: 2.h,),
+          SizedBox(
+            height: 2.h,
+          ),
           const Divider(height: 0),
-
           Expanded(
-            child: Consumer<AppDataStore>(
-              builder: (context,model,widget) {
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                  itemCount: model.settingList.length,
-                  itemBuilder: (context, index) {
-                    return _item(model.settingList[index]);
-                  },
-                  separatorBuilder: (context,index){
-                    return SizedBox(height: index == 4 ? 7.h : 3.h,);
-                  },
-                );
-              }
-            ),
+            child: Consumer<AppDataStore>(builder: (context, model, widget) {
+              return ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: 2.h),
+                itemCount: model.settingList.length,
+                itemBuilder: (context, index) {
+                  return _item(model.settingList[index]);
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    height: index == 4 ? 7.h : 3.h,
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
@@ -69,23 +69,21 @@ class _SettingScreenState extends State<SettingScreen> {
 
   Widget _item(SettingListModel model) {
     return GestureDetector(
-      onTap: (){
-        if(model.id == 5){
+      onTap: () {
+        if (model.id == 5) {
           Navigator.pushNamed(context, "/setNotification");
-        } else if(model.id == 6 || model.id == 7) {
-
+        } else if (model.id == 6 || model.id == 7) {
         } else {
-          Navigator.pushNamed(context, "/settingList",arguments: model);
+          Navigator.pushNamed(context, "/settingList", arguments: model);
         }
-
       },
       child: Container(
         color: Colors.transparent,
-        padding: EdgeInsets.symmetric(horizontal: 4.8.w,vertical: 0.5.h),
+        padding: EdgeInsets.symmetric(horizontal: 4.8.w, vertical: 0.5.h),
         child: Row(
           children: [
             Expanded(
-              child:Text(
+              child: Text(
                 model.title!,
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
@@ -103,7 +101,8 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(width: 1.w),
             RotationTransition(
               turns: const AlwaysStoppedAnimation(270 / 360),
-              child: Image.asset(StringRes.arrowDownIcon, width: 14,height: 14),
+              child:
+                  Image.asset(StringRes.arrowDownIcon, width: 14, height: 14),
             ),
           ],
         ),

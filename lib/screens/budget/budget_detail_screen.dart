@@ -1,6 +1,8 @@
 import 'package:expense_tracker/Utils/size_utils.dart';
 import 'package:expense_tracker/model/budget_model.dart';
 import 'package:expense_tracker/provider/appdata_store_provider.dart';
+import 'package:expense_tracker/res/app_colors.dart';
+import 'package:expense_tracker/res/strings.dart';
 import 'package:expense_tracker/widgets/back_button.dart';
 import 'package:expense_tracker/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -8,21 +10,14 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../res/app_colors.dart';
-import '../../res/strings.dart';
-import '../../widgets/dotted_divider.dart';
-import '../../widgets/line_chart_view.dart';
-
 class BudgetDetailScreen extends StatefulWidget {
-  const BudgetDetailScreen({Key? key}) : super(key: key);
+  const BudgetDetailScreen({super.key});
 
   @override
   State<BudgetDetailScreen> createState() => _BudgetDetailScreenState();
 }
 
 class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,13 +26,14 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    BudgetModel model = ModalRoute.of(context)!.settings.arguments as BudgetModel;
+    BudgetModel model =
+        ModalRoute.of(context)!.settings.arguments as BudgetModel;
     double totalSpend = 0;
     bool exceedLimit = false;
-    model.categories!.forEach((element) {
+    for (var element in model.categories!) {
       totalSpend = totalSpend + element.balance!;
-    });
-    if(totalSpend > model.balance!){
+    }
+    if (totalSpend > model.balance!) {
       exceedLimit = true;
     }
     return Scaffold(
@@ -50,16 +46,17 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: CommonBackButton()
+                  child: CommonBackButton(),
                 ),
                 Text(
                   StringRes.budgetDetail,
                   style: TextStyle(
-                      color: AppColors.textColor,
-                      fontWeight: StringRes.appBarTitle.fontWeight,
-                      fontSize: StringRes.appBarTitle.fontSize),
+                    color: AppColors.textColor,
+                    fontWeight: StringRes.appBarTitle.fontWeight,
+                    fontSize: StringRes.appBarTitle.fontSize,
+                  ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -68,7 +65,9 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
                       showBottomSheet(model);
                     },
                     child: Image.asset(StringRes.deleteIcon,
-                        height: SizerUtil.deviceType == DeviceType.tablet ? 45 : 30, color: AppColors.textColor),
+                        height:
+                            Device.screenType == ScreenType.tablet ? 45 : 30,
+                        color: AppColors.textColor),
                   ),
                 ),
               ],
@@ -113,53 +112,68 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
           Text(
             "\$${model.balance! - totalSpend <= 0 ? 0 : model.balance! - totalSpend}",
             style: TextStyle(
-                fontSize: SizerUtil.deviceType == DeviceType.tablet ? 25.sp : 30.sp,
+                fontSize:
+                    Device.screenType == ScreenType.tablet ? 25.sp : 30.sp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textColor),
           ),
           SizedBox(height: 3.h),
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 4.w),
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: LinearPercentIndicator(
               width: 92.w,
               animation: true,
               lineHeight: 15.0,
               animationDuration: 2500,
-              barRadius: Radius.circular(14),
-              percent: totalSpend / model.balance! >= 1 ? 1 : totalSpend / model.balance!,
-              backgroundColor: Color(0xFFF1F1FA),
+              barRadius: const Radius.circular(14),
+              percent: totalSpend / model.balance! >= 1
+                  ? 1
+                  : totalSpend / model.balance!,
+              backgroundColor: const Color(0xFFF1F1FA),
               linearStrokeCap: LinearStrokeCap.roundAll,
-              progressColor:Color(0xFFFCAC12),
+              progressColor: const Color(0xFFFCAC12),
             ),
           ),
           SizedBox(height: 3.h),
-          exceedLimit ? Container(
-            padding: EdgeInsets.symmetric(horizontal: SizerUtil.deviceType == DeviceType.tablet ? 3.w : 1.5.w,vertical: SizerUtil.deviceType == DeviceType.tablet ? 0.5.h : 0.2.h),
-            decoration: BoxDecoration(
-              color: Color(0xFFFD3C4A),
-              borderRadius: BorderRadius.circular(24)
+          if (exceedLimit)
+            Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal:
+                      Device.screenType == ScreenType.tablet ? 3.w : 1.5.w,
+                  vertical:
+                      Device.screenType == ScreenType.tablet ? 0.5.h : 0.2.h),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFD3C4A),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    StringRes.warningIcon,
+                    width: 32,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "You’ve exceed the limit  ",
+                    style: TextStyle(
+                        fontSize: SizeUtil.f10,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(StringRes.warningIcon,width: 32,color: Colors.white,),
-                Text(
-                  "You’ve exceed the limit  ",
-                  style: TextStyle(
-                      fontSize: SizeUtil.f10,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-          ) : const SizedBox(),
           SizedBox(height: 3.h),
           const Spacer(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.2.w),
-            child: CommonButton(onTap: () {
-              Navigator.pushNamed(context, '/createBudget',arguments: model);
-            }, title: "Edit"),
+            child: CommonButton(
+                onTap: () {
+                  Navigator.pushNamed(context, '/createBudget',
+                      arguments: model);
+                },
+                title: "Edit"),
           ),
           SizedBox(
             height: 4.h,
@@ -192,7 +206,7 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
                   width: 35,
                   height: 5,
                   decoration: BoxDecoration(
-                      color: Color(0xFFD3BDFF),
+                      color: const Color(0xFFD3BDFF),
                       borderRadius: BorderRadius.circular(30)),
                 ),
                 SizedBox(
@@ -229,7 +243,7 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
                         },
                         title: "No",
                         textColor: AppColors.buttonColor,
-                        buttonColor: Color(0xFFEEE5FF),
+                        buttonColor: const Color(0xFFEEE5FF),
                       ),
                     ),
                     SizedBox(width: 3.w),
@@ -237,7 +251,8 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
                       flex: 1,
                       child: CommonButton(
                           onTap: () {
-                            Provider.of<AppDataStore>(context,listen: false).removeBudgetItem(model);
+                            Provider.of<AppDataStore>(context, listen: false)
+                                .removeBudgetItem(model);
                             Navigator.pop(context);
                             Navigator.pop(context);
                           },
@@ -253,5 +268,4 @@ class _BudgetDetailScreenState extends State<BudgetDetailScreen> {
           );
         });
   }
-
 }

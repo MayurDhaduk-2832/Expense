@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DottedDivider extends StatelessWidget {
-  const DottedDivider({Key? key, this.height = 1, this.color = Colors.black})
-      : super(key: key);
+  const DottedDivider({super.key, this.height = 1, this.color = Colors.black});
   final double height;
   final Color color;
 
@@ -15,17 +14,20 @@ class DottedDivider extends StatelessWidget {
         final dashHeight = height;
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
         return Flex(
-          children: List.generate(dashCount, (_) {
-            return SizedBox(
-              width: dashWidth,
-              height: dashHeight,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: color),
-              ),
-            );
-          }),
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           direction: Axis.horizontal,
+          children: List.generate(
+            dashCount,
+            (_) {
+              return SizedBox(
+                width: dashWidth,
+                height: dashHeight,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(color: color),
+                ),
+              );
+            },
+          ),
         );
       },
     );

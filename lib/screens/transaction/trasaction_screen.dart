@@ -1,19 +1,19 @@
+import 'dart:developer';
+
+import 'package:expense_tracker/Utils/size_utils.dart';
+import 'package:expense_tracker/helper/date_format_helper.dart';
+import 'package:expense_tracker/model/income_expense_model.dart';
+import 'package:expense_tracker/provider/appdata_store_provider.dart';
 import 'package:expense_tracker/res/app_colors.dart';
+import 'package:expense_tracker/res/strings.dart';
 import 'package:expense_tracker/widgets/custom_button.dart';
-import 'package:expense_tracker/widgets/custom_drop_down_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../Utils/size_utils.dart';
-import '../../helper/date_format_helper.dart';
-import '../../model/income_expense_model.dart';
-import '../../provider/appdata_store_provider.dart';
-import '../../res/strings.dart';
-
 class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({Key? key}) : super(key: key);
+  const TransactionScreen({super.key});
 
   @override
   State<TransactionScreen> createState() => _TransactionScreenState();
@@ -28,125 +28,135 @@ class _TransactionScreenState extends State<TransactionScreen> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 4.2.w),
-        child:Consumer<AppDataStore>(
-            builder: (context,model,widget) {
-            List<IncomeExpenseModel> list = [];
-            List<IncomeExpenseModel> todayList = [];
-            List<IncomeExpenseModel> yesterdayList = [];
-            list.addAll(model.incomeDataList);
-            list.addAll(model.expenseDataList);
-            list.sort((b, a) => a.id!.compareTo(b.id!));
-            list.forEach((element) {
-              if(DateFormatHelper.isToday(element.id!)){
-                todayList.add(element);
-              } else{
-               yesterdayList.add(element);
-              }
-            });
+        child: Consumer<AppDataStore>(builder: (context, model, widget) {
+          List<IncomeExpenseModel> list = [];
+          List<IncomeExpenseModel> todayList = [];
+          List<IncomeExpenseModel> yesterdayList = [];
+          list.addAll(model.incomeDataList);
+          list.addAll(model.expenseDataList);
+          list.sort((b, a) => a.id!.compareTo(b.id!));
+          for (var element in list) {
+            if (DateFormatHelper.isToday(element.id!)) {
+              todayList.add(element);
+            } else {
+              yesterdayList.add(element);
+            }
+          }
 
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 7.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: SizerUtil.deviceType == DeviceType.tablet ? 60 :40,
-                      padding: EdgeInsets.symmetric(horizontal: SizerUtil.deviceType == DeviceType.tablet ? 25 :10,),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFFF1F1FA)),
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Row(
-                        children: [
-                          Image.asset(StringRes.arrowDownIcon, width: SizerUtil.deviceType == DeviceType.tablet ? 25 :15),
-                          SizedBox(width: 10),
-                          Text(
-                            "Month",
-                            style: TextStyle(
-                                fontSize: 10.sp, color: AppColors.textColor),
-                          ),
-                        ],
-                      ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 7.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: Device.screenType == ScreenType.tablet ? 60 : 40,
+                    padding: EdgeInsets.symmetric(
+                      horizontal:
+                          Device.screenType == ScreenType.tablet ? 25 : 10,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        filterBottomSheet();
-                      },
-                      child: Image.asset(
-                        StringRes.filterIcon,
-                        height: SizerUtil.deviceType == DeviceType.tablet ? 50 :40,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 2.h),
-                GestureDetector(
-                  onTap: (){
-                    if(model.expenseDataList.isEmpty || model.incomeDataList.isEmpty){
-                      Fluttertoast.showToast(msg: "Financial report not available");
-                    }else{
-                    Navigator.pushNamed(context, "/financialReport");
-                    }
-                  },
-                  child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFEEE5FF),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 1.8.h),
+                        border: Border.all(color: const Color(0xFFF1F1FA)),
+                        borderRadius: BorderRadius.circular(40)),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Text(
-                            "See your financial report",
-                            style: TextStyle(
-                                fontSize: SizeUtil.f12, color: AppColors.buttonColor),
-                          ),
-                        ),
+                        Image.asset(StringRes.arrowDownIcon,
+                            width: Device.screenType == ScreenType.tablet
+                                ? 25
+                                : 15),
                         const SizedBox(width: 10),
-                        RotationTransition(
-                          turns: const AlwaysStoppedAnimation(270 / 360),
-                          child: Image.asset(StringRes.arrowDownIcon, width: 18),
+                        Text(
+                          "Month",
+                          style: TextStyle(
+                              fontSize: 10.sp, color: AppColors.textColor),
                         ),
                       ],
                     ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      filterBottomSheet();
+                    },
+                    child: Image.asset(
+                      StringRes.filterIcon,
+                      height: Device.screenType == ScreenType.tablet ? 50 : 40,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 2.h),
+              GestureDetector(
+                onTap: () {
+                  if (model.expenseDataList.isEmpty ||
+                      model.incomeDataList.isEmpty) {
+                    Fluttertoast.showToast(
+                        msg: "Financial report not available");
+                  } else {
+                    Navigator.pushNamed(context, "/financialReport");
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEEE5FF),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 1.8.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "See your financial report",
+                          style: TextStyle(
+                              fontSize: SizeUtil.f12,
+                              color: AppColors.buttonColor),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      RotationTransition(
+                        turns: const AlwaysStoppedAnimation(270 / 360),
+                        child: Image.asset(StringRes.arrowDownIcon, width: 18),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 2.h),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        todayList.isEmpty ? const SizedBox() : Text(
-                          "Today",
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              color: AppColors.textColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(height: todayList.isEmpty ? 0 : 1.h),
-                        ...todayList.map((e) => _transactionItem(e)).toList(),
-                        SizedBox(height: 2.h),
-                        yesterdayList.isEmpty ? const SizedBox() : Text(
-                          "Yesterday",
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              color: AppColors.textColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(height: yesterdayList.isEmpty ? 0 : 1.h),
-
-                      ],
-                    ),
+              ),
+              SizedBox(height: 2.h),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      todayList.isEmpty
+                          ? const SizedBox()
+                          : Text(
+                              "Today",
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: AppColors.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                      SizedBox(height: todayList.isEmpty ? 0 : 1.h),
+                      ...todayList.map((e) => _transactionItem(e)),
+                      SizedBox(height: 2.h),
+                      yesterdayList.isEmpty
+                          ? const SizedBox()
+                          : Text(
+                              "Yesterday",
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: AppColors.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                      SizedBox(height: yesterdayList.isEmpty ? 0 : 1.h),
+                    ],
                   ),
-                )
-              ],
-            );
-          }
-        ),
+                ),
+              )
+            ],
+          );
+        }),
       ),
     );
   }
@@ -156,7 +166,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
       margin: EdgeInsets.symmetric(vertical: 0.7.h),
       padding: EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 4.2.w),
       decoration: BoxDecoration(
-        color: Color(0xFFFCFCFC),
+        color: const Color(0xFFFCFCFC),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
@@ -190,12 +200,14 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       "\$${model.balance}",
                       style: TextStyle(
                           fontSize: SizeUtil.f12,
-                          color: model.type == StringRes.income ? Color(0xFF00A86B) : Color(0xFFFD3C4A),
+                          color: model.type == StringRes.income
+                              ? const Color(0xFF00A86B)
+                              : const Color(0xFFFD3C4A),
                           fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -205,7 +217,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: SizeUtil.f11,
-                            color: Color(0xFF91919F),
+                            color: const Color(0xFF91919F),
                             fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -214,7 +226,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       DateFormatHelper.dateFormat(model.id!),
                       style: TextStyle(
                           fontSize: SizeUtil.f10,
-                          color: Color(0xFF91919F),
+                          color: const Color(0xFF91919F),
                           fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -254,7 +266,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     width: 35,
                     height: 5,
                     decoration: BoxDecoration(
-                        color: Color(0xFFD3BDFF),
+                        color: const Color(0xFFD3BDFF),
                         borderRadius: BorderRadius.circular(30)),
                   ),
                 ),
@@ -274,11 +286,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     GestureDetector(
                       onTap: () {},
                       child: Chip(
-                        backgroundColor: Color(0xFFEEE5FF),
+                        backgroundColor: const Color(0xFFEEE5FF),
                         label: Text(
                           " Reset ",
                           style: TextStyle(
-                            fontSize: SizeUtil.f10,
+                              fontSize: SizeUtil.f10,
                               color: AppColors.buttonColor,
                               fontWeight: FontWeight.w500),
                         ),
@@ -305,32 +317,26 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   runSpacing: 0.1.h,
                   children: [
                     ...filterByList.map((e) {
-                      bool isSelect = false;
                       return FilterChip(
                         label: Text(e),
                         labelStyle: TextStyle(
-                            fontSize: SizeUtil.f10,
-                            color: isSelect
-                            ? AppColors.buttonColor : AppColors.textColor),
+                          fontSize: SizeUtil.f10,
+                          color: AppColors.textColor,
+                        ),
                         padding: EdgeInsets.symmetric(
                             vertical: 1.2.h, horizontal: 3.w),
                         selectedColor: const Color(0xFFEEE5FF),
-                        backgroundColor: isSelect
-                            ?const Color(0xFFEEE5FF) : Colors.white,
-                        shape: StadiumBorder(
+                        backgroundColor: Colors.white,
+                        shape: const StadiumBorder(
                           side: BorderSide(
-                            color: isSelect
-                                ? const Color(0xFFEEE5FF)
-                                : const Color(
-                                    0xFFE3E5E5,
-                                  ),
+                            color: Color(0xFFE3E5E5),
                           ),
                         ),
                         onSelected: (bool value) {
-                          print("selected");
+                          log("selected");
                         },
                       );
-                    }).toList()
+                    })
                   ],
                 ),
                 SizedBox(
@@ -352,32 +358,26 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   runSpacing: 0.1.h,
                   children: [
                     ...sortByList.map((e) {
-                      bool isSelect = false;
                       return FilterChip(
                         label: Text(e),
                         labelStyle: TextStyle(
-                            fontSize: SizeUtil.f10,
-                            color: isSelect
-                            ? AppColors.buttonColor : AppColors.textColor),
+                          fontSize: SizeUtil.f10,
+                          color: AppColors.textColor,
+                        ),
                         padding: EdgeInsets.symmetric(
                             vertical: 1.2.h, horizontal: 3.w),
                         selectedColor: const Color(0xFFEEE5FF),
-                        backgroundColor: isSelect
-                            ?const Color(0xFFEEE5FF) : Colors.white,
-                        shape: StadiumBorder(
+                        backgroundColor: Colors.white,
+                        shape: const StadiumBorder(
                           side: BorderSide(
-                            color: isSelect
-                                ? const Color(0xFFEEE5FF)
-                                : const Color(
-                                    0xFFE3E5E5,
-                                  ),
+                            color: Color(0xFFE3E5E5),
                           ),
                         ),
                         onSelected: (bool value) {
-                          print("selected");
+                          log("selected");
                         },
                       );
-                    }).toList()
+                    })
                   ],
                 ),
                 SizedBox(
@@ -403,7 +403,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
                             fontSize: SizeUtil.f11,
                             color: AppColors.textColor),
                       ),
-                    ),Text(
+                    ),
+                    Text(
                       "0 Selected",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
@@ -413,16 +414,21 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     const SizedBox(width: 5),
                     RotationTransition(
                       turns: const AlwaysStoppedAnimation(270 / 360),
-                      child: Image.asset(StringRes.arrowDownIcon, width: 14,),
+                      child: Image.asset(
+                        StringRes.arrowDownIcon,
+                        width: 14,
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: 3.h,
                 ),
-                CommonButton(onTap: (){
-                  Navigator.pop(context);
-                }, title: "Apply"),
+                CommonButton(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    title: "Apply"),
                 SizedBox(
                   height: 4.h,
                 ),

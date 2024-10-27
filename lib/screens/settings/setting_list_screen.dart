@@ -9,17 +9,17 @@ import '../../res/app_colors.dart';
 import '../../res/strings.dart';
 
 class SettingListScreen extends StatefulWidget {
-  const SettingListScreen({Key? key}) : super(key: key);
+  const SettingListScreen({super.key});
 
   @override
   State<SettingListScreen> createState() => _SettingListScreenState();
 }
 
 class _SettingListScreenState extends State<SettingListScreen> {
-
   @override
   Widget build(BuildContext context) {
-    SettingListModel model = ModalRoute.of(context)!.settings.arguments as SettingListModel;
+    SettingListModel model =
+        ModalRoute.of(context)!.settings.arguments as SettingListModel;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,7 +28,7 @@ class _SettingListScreenState extends State<SettingListScreen> {
             height: 7.h,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 5.33.w,right: 2.w),
+            padding: EdgeInsets.only(left: 5.33.w, right: 2.w),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -47,18 +47,21 @@ class _SettingListScreenState extends State<SettingListScreen> {
               ],
             ),
           ),
-          SizedBox(height: 2.h,),
+          SizedBox(
+            height: 2.h,
+          ),
           const Divider(height: 0),
-
           Expanded(
             child: ListView.separated(
               padding: EdgeInsets.symmetric(vertical: 2.h),
               itemCount: model.values!.length,
               itemBuilder: (context, index) {
-                return _item(model.values![index],index);
+                return _item(model.values![index], index);
               },
-              separatorBuilder: (context,index){
-                return SizedBox(height: 2.5.h,);
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  height: 2.5.h,
+                );
               },
             ),
           ),
@@ -67,22 +70,24 @@ class _SettingListScreenState extends State<SettingListScreen> {
     );
   }
 
-  Widget _item(String title,int index) {
-    SettingListModel model = ModalRoute.of(context)!.settings.arguments as SettingListModel;
+  Widget _item(String title, int index) {
+    SettingListModel model =
+        ModalRoute.of(context)!.settings.arguments as SettingListModel;
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         model.selectIndex = index;
-        Provider.of<AppDataStore>(context,listen: false).setSettingListValue(model.id!, index);
+        Provider.of<AppDataStore>(context, listen: false)
+            .setSettingListValue(model.id!, index);
         setState(() {});
       },
       child: Container(
         color: Colors.transparent,
-        padding: EdgeInsets.symmetric(horizontal: 4.8.w,vertical: 0.1.h),
+        padding: EdgeInsets.symmetric(horizontal: 4.8.w, vertical: 0.1.h),
         child: Row(
           children: [
             Expanded(
-              child:Padding(
-                padding:  EdgeInsets.symmetric(vertical: 0.4.h),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 0.4.h),
                 child: Text(
                   title,
                   style: TextStyle(
@@ -92,9 +97,13 @@ class _SettingListScreenState extends State<SettingListScreen> {
                 ),
               ),
             ),
-            model.selectIndex == index ? Image.asset(StringRes.allSetIcon,
-              height: SizerUtil.deviceType == DeviceType.tablet ? 36 : 24,
-              color: AppColors.buttonColor,) : const SizedBox()
+            model.selectIndex == index
+                ? Image.asset(
+                    StringRes.allSetIcon,
+                    height: Device.screenType == ScreenType.tablet ? 36 : 24,
+                    color: AppColors.buttonColor,
+                  )
+                : const SizedBox()
           ],
         ),
       ),

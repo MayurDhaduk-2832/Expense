@@ -11,7 +11,7 @@ import '../../res/strings.dart';
 import '../../widgets/line_chart_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -31,205 +31,206 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Consumer<AppDataStore>(
-          builder: (context,model,widget) {
-            double totalBalance = 0;
-            double incomeBalance = 0;
-            double expenseBalance = 0;
-            for (var element in model.accountList) {
-              totalBalance = totalBalance + element.accBalance!;
-            } for (var element in model.incomeDataList) {
-              incomeBalance = incomeBalance + element.balance!;
-            } for (var element in model.expenseDataList) {
-              expenseBalance = expenseBalance + element.balance!;
-            }
-            return ScrollConfiguration(
-              behavior: ScrollBehavior(),
-              child: NestedScrollView(
-                  physics: ScrollPhysics(),
-                  floatHeaderSlivers: true,
-                  headerSliverBuilder: (context,inner) => [_appBar(totalBalance,incomeBalance,expenseBalance)],
-                  body: ListView(
-                    physics: ScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    children: [
-                      // Container(
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: const BorderRadius.only(
-                      //         bottomLeft: Radius.circular(32),
-                      //         bottomRight: Radius.circular(32),
-                      //       ),
-                      //       gradient: LinearGradient(
-                      //           colors: [
-                      //             const Color(0xFFFFF6E5),
-                      //             const Color.fromRGBO(248, 237, 216, 0).withOpacity(0.2)
-                      //           ],
-                      //           stops: const [
-                      //             0.0,
-                      //             1.0
-                      //           ],
-                      //           begin: FractionalOffset.topCenter,
-                      //           end: FractionalOffset.bottomCenter,
-                      //           tileMode: TileMode.clamp)),
-                      //   child: Column(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //       SizedBox(height: 6.5.h),
-                      //       Padding(
-                      //         padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //           children: [
-                      //             Stack(
-                      //               alignment: Alignment.center,
-                      //               children: [
-                      //                 Container(
-                      //                   height: SizerUtil.deviceType == DeviceType.tablet
-                      //                       ? 65
-                      //                       : 34,
-                      //                   width: SizerUtil.deviceType == DeviceType.tablet
-                      //                       ? 65
-                      //                       : 34,
-                      //                   decoration: BoxDecoration(
-                      //                       shape: BoxShape.circle,
-                      //                       border:
-                      //                           Border.all(color: AppColors.buttonColor)),
-                      //                 ),
-                      //                 Container(
-                      //                   height: SizerUtil.deviceType == DeviceType.tablet
-                      //                       ? 60
-                      //                       : 29,
-                      //                   width: SizerUtil.deviceType == DeviceType.tablet
-                      //                       ? 60
-                      //                       : 29,
-                      //                   decoration: BoxDecoration(
-                      //                     image: const DecorationImage(
-                      //                         fit: BoxFit.cover,
-                      //                         image:
-                      //                             AssetImage(StringRes.tempModelImage)),
-                      //                     shape: BoxShape.circle,
-                      //                     color: Colors.grey.withOpacity(0.20),
-                      //                   ),
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //             Container(
-                      //               padding: EdgeInsets.symmetric(
-                      //                   horizontal:
-                      //                       SizerUtil.deviceType == DeviceType.tablet
-                      //                           ? 25
-                      //                           : 7,
-                      //                   vertical: 8),
-                      //               decoration: BoxDecoration(
-                      //                   border:
-                      //                       Border.all(color: const Color(0xFFF1F1FA)),
-                      //                   borderRadius: BorderRadius.circular(40)),
-                      //               child: Row(
-                      //                 children: [
-                      //                   Image.asset(StringRes.arrowDownIcon,
-                      //                       width:
-                      //                           SizerUtil.deviceType == DeviceType.tablet
-                      //                               ? 25
-                      //                               : 15),
-                      //                   SizedBox(width: 10),
-                      //                   Text(
-                      //                     "October",
-                      //                     style: TextStyle(
-                      //                         fontSize: 11.sp,
-                      //                         fontWeight: FontWeight.w500),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //             GestureDetector(
-                      //                 onTap: () {
-                      //                   Navigator.pushNamed(context, "/notification");
-                      //                 },
-                      //                 child: Image.asset(
-                      //                   StringRes.notificationIcon,
-                      //                   height: SizerUtil.deviceType == DeviceType.tablet
-                      //                       ? 50
-                      //                       : 34,
-                      //                   width: SizerUtil.deviceType == DeviceType.tablet
-                      //                       ? 50
-                      //                       : 34,
-                      //                 ))
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       SizedBox(height: 2.5.h),
-                      //       Text(
-                      //         "Account Balance",
-                      //         style: TextStyle(
-                      //           fontSize: SizeUtil.f11,
-                      //           color: const Color(0xFF91919F),
-                      //         ),
-                      //       ),
-                      //       SizedBox(height: 1.5.h),
-                      //       Text(
-                      //         "\$$totalBalance",
-                      //         style: TextStyle(
-                      //             fontSize: SizerUtil.deviceType == DeviceType.tablet ? 25.sp : 30.sp,
-                      //             fontWeight: FontWeight.w600,
-                      //             color: AppColors.textColor),
-                      //       ),
-                      //       SizedBox(height: 3.h),
-                      //       Row(children: [
-                      //         SizedBox(width: 4.2.w),
-                      //
-                      //         /// income widget
-                      //         _incomeExpenseWidget(type: StringRes.income, value: "$incomeBalance"),
-                      //         SizedBox(width: 4.2.w),
-                      //         _incomeExpenseWidget(
-                      //             type: StringRes.expense, value: "$expenseBalance"),
-                      //         SizedBox(width: 4.2.w),
-                      //       ]),
-                      //       SizedBox(height: 3.h),
-                      //     ],
-                      //   ),
-                      // ),
-                      SizedBox(height: 2.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.2.w),
-                        child: Text(
-                          "Spend Frequency",
-                          style: TextStyle(
-                              fontSize: 13.sp,
-                              color: AppColors.textColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                        width: 100.w,
-                        child: const FiChartPage(),
-                      ),
-                      SizedBox(height: 1.5.h),
-
-                      /// tab bar
-                      _tabBar(),
-                      SizedBox(height: 2.h),
-
-                      /// tab view
-                      _tabView(model)
-                    ],
-                  )
-              ),
-            );
+      body: Consumer<AppDataStore>(builder: (context, model, widget) {
+        double totalBalance = 0;
+        double incomeBalance = 0;
+        double expenseBalance = 0;
+        for (var element in model.accountList) {
+          totalBalance = totalBalance + element.accBalance!;
         }
-      ),
+        for (var element in model.incomeDataList) {
+          incomeBalance = incomeBalance + element.balance!;
+        }
+        for (var element in model.expenseDataList) {
+          expenseBalance = expenseBalance + element.balance!;
+        }
+        return ScrollConfiguration(
+          behavior: const ScrollBehavior(),
+          child: NestedScrollView(
+              physics: const ScrollPhysics(),
+              floatHeaderSlivers: true,
+              headerSliverBuilder: (context, inner) =>
+                  [_appBar(totalBalance, incomeBalance, expenseBalance)],
+              body: ListView(
+                physics: const ScrollPhysics(),
+                padding: EdgeInsets.zero,
+                children: [
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: const BorderRadius.only(
+                  //         bottomLeft: Radius.circular(32),
+                  //         bottomRight: Radius.circular(32),
+                  //       ),
+                  //       gradient: LinearGradient(
+                  //           colors: [
+                  //             const Color(0xFFFFF6E5),
+                  //             const Color.fromRGBO(248, 237, 216, 0).withOpacity(0.2)
+                  //           ],
+                  //           stops: const [
+                  //             0.0,
+                  //             1.0
+                  //           ],
+                  //           begin: FractionalOffset.topCenter,
+                  //           end: FractionalOffset.bottomCenter,
+                  //           tileMode: TileMode.clamp)),
+                  //   child: Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       SizedBox(height: 6.5.h),
+                  //       Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Stack(
+                  //               alignment: Alignment.center,
+                  //               children: [
+                  //                 Container(
+                  //                   height: Device.screenType == ScreenType.tablet
+                  //                       ? 65
+                  //                       : 34,
+                  //                   width: Device.screenType == ScreenType.tablet
+                  //                       ? 65
+                  //                       : 34,
+                  //                   decoration: BoxDecoration(
+                  //                       shape: BoxShape.circle,
+                  //                       border:
+                  //                           Border.all(color: AppColors.buttonColor)),
+                  //                 ),
+                  //                 Container(
+                  //                   height: Device.screenType == ScreenType.tablet
+                  //                       ? 60
+                  //                       : 29,
+                  //                   width: Device.screenType == ScreenType.tablet
+                  //                       ? 60
+                  //                       : 29,
+                  //                   decoration: BoxDecoration(
+                  //                     image: const DecorationImage(
+                  //                         fit: BoxFit.cover,
+                  //                         image:
+                  //                             AssetImage(StringRes.tempModelImage)),
+                  //                     shape: BoxShape.circle,
+                  //                     color: Colors.grey.withOpacity(0.20),
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             Container(
+                  //               padding: EdgeInsets.symmetric(
+                  //                   horizontal:
+                  //                       Device.screenType == ScreenType.tablet
+                  //                           ? 25
+                  //                           : 7,
+                  //                   vertical: 8),
+                  //               decoration: BoxDecoration(
+                  //                   border:
+                  //                       Border.all(color: const Color(0xFFF1F1FA)),
+                  //                   borderRadius: BorderRadius.circular(40)),
+                  //               child: Row(
+                  //                 children: [
+                  //                   Image.asset(StringRes.arrowDownIcon,
+                  //                       width:
+                  //                           Device.screenType == ScreenType.tablet
+                  //                               ? 25
+                  //                               : 15),
+                  //                   SizedBox(width: 10),
+                  //                   Text(
+                  //                     "October",
+                  //                     style: TextStyle(
+                  //                         fontSize: 11.sp,
+                  //                         fontWeight: FontWeight.w500),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //             GestureDetector(
+                  //                 onTap: () {
+                  //                   Navigator.pushNamed(context, "/notification");
+                  //                 },
+                  //                 child: Image.asset(
+                  //                   StringRes.notificationIcon,
+                  //                   height: Device.screenType == ScreenType.tablet
+                  //                       ? 50
+                  //                       : 34,
+                  //                   width: Device.screenType == ScreenType.tablet
+                  //                       ? 50
+                  //                       : 34,
+                  //                 ))
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       SizedBox(height: 2.5.h),
+                  //       Text(
+                  //         "Account Balance",
+                  //         style: TextStyle(
+                  //           fontSize: SizeUtil.f11,
+                  //           color: const Color(0xFF91919F),
+                  //         ),
+                  //       ),
+                  //       SizedBox(height: 1.5.h),
+                  //       Text(
+                  //         "\$$totalBalance",
+                  //         style: TextStyle(
+                  //             fontSize: Device.screenType == ScreenType.tablet ? 25.sp : 30.sp,
+                  //             fontWeight: FontWeight.w600,
+                  //             color: AppColors.textColor),
+                  //       ),
+                  //       SizedBox(height: 3.h),
+                  //       Row(children: [
+                  //         SizedBox(width: 4.2.w),
+                  //
+                  //         /// income widget
+                  //         _incomeExpenseWidget(type: StringRes.income, value: "$incomeBalance"),
+                  //         SizedBox(width: 4.2.w),
+                  //         _incomeExpenseWidget(
+                  //             type: StringRes.expense, value: "$expenseBalance"),
+                  //         SizedBox(width: 4.2.w),
+                  //       ]),
+                  //       SizedBox(height: 3.h),
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(height: 2.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.2.w),
+                    child: Text(
+                      "Spend Frequency",
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: AppColors.textColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                    width: 100.w,
+                    child: const FiChartPage(),
+                  ),
+                  SizedBox(height: 1.5.h),
+
+                  /// tab bar
+                  _tabBar(),
+                  SizedBox(height: 2.h),
+
+                  /// tab view
+                  _tabView(model)
+                ],
+              )),
+        );
+      }),
     );
   }
 
-  Widget _appBar(double totalBal,incomeBal,expenseBal) {
+  Widget _appBar(double totalBal, incomeBal, expenseBal) {
     return SliverAppBar(
       elevation: 0,
       expandedHeight: 35.h,
       pinned: true,
-      backgroundColor:  const Color(0xFFFFF6E5),
-      shape: ContinuousRectangleBorder(
+      backgroundColor: const Color(0xFFFFF6E5),
+      shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32))),
+              bottomLeft: Radius.circular(32),
+              bottomRight: Radius.circular(32))),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -237,29 +238,19 @@ class _HomeScreenState extends State<HomeScreen>
             alignment: Alignment.center,
             children: [
               Container(
-                height: SizerUtil.deviceType == DeviceType.tablet
-                    ? 65
-                    : 34,
-                width: SizerUtil.deviceType == DeviceType.tablet
-                    ? 65
-                    : 34,
+                height: Device.screenType == ScreenType.tablet ? 65 : 34,
+                width: Device.screenType == ScreenType.tablet ? 65 : 34,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border:
-                    Border.all(color: AppColors.buttonColor)),
+                    border: Border.all(color: AppColors.buttonColor)),
               ),
               Container(
-                height: SizerUtil.deviceType == DeviceType.tablet
-                    ? 60
-                    : 29,
-                width: SizerUtil.deviceType == DeviceType.tablet
-                    ? 60
-                    : 29,
+                height: Device.screenType == ScreenType.tablet ? 60 : 29,
+                width: Device.screenType == ScreenType.tablet ? 60 : 29,
                 decoration: BoxDecoration(
                   image: const DecorationImage(
                       fit: BoxFit.cover,
-                      image:
-                      AssetImage(StringRes.tempModelImage)),
+                      image: AssetImage(StringRes.tempModelImage)),
                   shape: BoxShape.circle,
                   color: Colors.grey.withOpacity(0.20),
                 ),
@@ -268,23 +259,16 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           Container(
             padding: EdgeInsets.symmetric(
-                horizontal:
-                SizerUtil.deviceType == DeviceType.tablet
-                    ? 25
-                    : 7,
+                horizontal: Device.screenType == ScreenType.tablet ? 25 : 7,
                 vertical: 8),
             decoration: BoxDecoration(
-                border:
-                Border.all(color: const Color(0xFFF1F1FA)),
+                border: Border.all(color: const Color(0xFFF1F1FA)),
                 borderRadius: BorderRadius.circular(40)),
             child: Row(
               children: [
                 Image.asset(StringRes.arrowDownIcon,
-                    width:
-                    SizerUtil.deviceType == DeviceType.tablet
-                        ? 25
-                        : 15),
-                SizedBox(width: 10),
+                    width: Device.screenType == ScreenType.tablet ? 25 : 15),
+                const SizedBox(width: 10),
                 Text(
                   "October",
                   style: TextStyle(
@@ -301,12 +285,8 @@ class _HomeScreenState extends State<HomeScreen>
               },
               child: Image.asset(
                 StringRes.notificationIcon,
-                height: SizerUtil.deviceType == DeviceType.tablet
-                    ? 50
-                    : 34,
-                width: SizerUtil.deviceType == DeviceType.tablet
-                    ? 50
-                    : 34,
+                height: Device.screenType == ScreenType.tablet ? 50 : 34,
+                width: Device.screenType == ScreenType.tablet ? 50 : 34,
               ))
         ],
       ),
@@ -345,7 +325,8 @@ class _HomeScreenState extends State<HomeScreen>
               Text(
                 "\$$totalBal",
                 style: TextStyle(
-                    fontSize: SizerUtil.deviceType == DeviceType.tablet ? 25.sp : 30.sp,
+                    fontSize:
+                        Device.screenType == ScreenType.tablet ? 25.sp : 30.sp,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textColor),
               ),
@@ -354,7 +335,8 @@ class _HomeScreenState extends State<HomeScreen>
                 SizedBox(width: 4.2.w),
 
                 /// income widget
-                _incomeExpenseWidget(type: StringRes.income, value: "$incomeBal"),
+                _incomeExpenseWidget(
+                    type: StringRes.income, value: "$incomeBal"),
                 SizedBox(width: 4.2.w),
                 _incomeExpenseWidget(
                     type: StringRes.expense, value: "$expenseBal"),
@@ -376,7 +358,9 @@ class _HomeScreenState extends State<HomeScreen>
         },
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 7, vertical:SizerUtil.deviceType == DeviceType.tablet ? 20 : 14),
+          padding: EdgeInsets.symmetric(
+              horizontal: 7,
+              vertical: Device.screenType == ScreenType.tablet ? 20 : 14),
           decoration: BoxDecoration(
             color: type == StringRes.income
                 ? const Color(0xFF00A86B)
@@ -386,13 +370,13 @@ class _HomeScreenState extends State<HomeScreen>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Image.asset(
                   type == StringRes.income
                       ? StringRes.incomeIcon
                       : StringRes.expensesIcon,
-                  width:SizerUtil.deviceType == DeviceType.tablet ? 90 : 52),
-              SizedBox(width:SizerUtil.deviceType == DeviceType.tablet ? 25: 10),
+                  width: Device.screenType == ScreenType.tablet ? 90 : 52),
+              SizedBox(width: Device.screenType == ScreenType.tablet ? 25 : 10),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -401,9 +385,10 @@ class _HomeScreenState extends State<HomeScreen>
                     Text(
                       type,
                       style: TextStyle(
-                          fontSize: SizeUtil.f11, color: AppColors.whiteTextColor),
+                          fontSize: SizeUtil.f11,
+                          color: AppColors.whiteTextColor),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       "\$$value",
                       overflow: TextOverflow.ellipsis,
@@ -425,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _tabBar() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4.2.w),
-      height: SizerUtil.deviceType == DeviceType.tablet ? 70 : 35,
+      height: Device.screenType == ScreenType.tablet ? 70 : 35,
       color: Colors.transparent,
       child: TabBar(
         controller: _tabController,
@@ -507,7 +492,7 @@ class _HomeScreenState extends State<HomeScreen>
             ],
           ),
         ),
-        ...list.map((e) => _transactionItem(e)).toList(),
+        ...list.map((e) => _transactionItem(e)),
         SizedBox(height: 12.h),
         // Expanded(
         //   child: ListView.builder(
@@ -519,24 +504,23 @@ class _HomeScreenState extends State<HomeScreen>
         //     return _transactionItem();
         //   }),
         // )
-
       ],
     );
   }
 
   Widget _transactionItem(IncomeExpenseModel model) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, "/addExpenses",arguments: model);
+      onTap: () {
+        Navigator.pushNamed(context, "/addExpenses", arguments: model);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 0.7.h),
         padding: EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 4.2.w),
         decoration: BoxDecoration(
-          color: Color(0xFFFCFCFC),
+          color: const Color(0xFFFCFCFC),
           borderRadius: BorderRadius.circular(24),
         ),
-        child:  Row(
+        child: Row(
           children: [
             Image.asset(
               StringRes.subscriptionIcon,
@@ -567,12 +551,14 @@ class _HomeScreenState extends State<HomeScreen>
                         "\$${model.balance}",
                         style: TextStyle(
                             fontSize: SizeUtil.f12,
-                            color: model.type == StringRes.income ? Color(0xFF00A86B) : Color(0xFFFD3C4A),
+                            color: model.type == StringRes.income
+                                ? const Color(0xFF00A86B)
+                                : const Color(0xFFFD3C4A),
                             fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -582,7 +568,7 @@ class _HomeScreenState extends State<HomeScreen>
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: SizeUtil.f11,
-                              color: Color(0xFF91919F),
+                              color: const Color(0xFF91919F),
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -591,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen>
                         DateFormatHelper.dateFormat(model.id!),
                         style: TextStyle(
                             fontSize: SizeUtil.f10,
-                            color: Color(0xFF91919F),
+                            color: const Color(0xFF91919F),
                             fontWeight: FontWeight.w500),
                       ),
                     ],

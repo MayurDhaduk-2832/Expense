@@ -7,7 +7,8 @@ class StringRes {
   static const String signUpwithGoogle = "Sign Up with Google";
   static const String login = "Login";
   static const String verification = "Verification";
-  static const String enterYourVerificationCode = "Enter your Verification Code";
+  static const String enterYourVerificationCode =
+      "Enter your Verification Code";
   static const String verify = "Verify";
   static const String forgotPassword = "Forgot Password";
   static const String continues = "Continue";
@@ -39,7 +40,6 @@ class StringRes {
   static const String logout = "Logout";
   static const String wallet = "Wallet";
   static const String n = "";
-
 
   ///icons
   static const String iconPath = 'assets/icons/';
@@ -90,9 +90,10 @@ class StringRes {
   static const String editIcon = '${iconPath}edit_icon.png';
   static const String planWalletIcon = '${iconPath}plan_wallet_icon.png';
   static const String incomeBottomIcon = '${iconPath}income_bottom_icon.png';
-  static const String transactionBottomIcon = '${iconPath}transaction_bottom_icon.png';
+  static const String transactionBottomIcon =
+      '${iconPath}transaction_bottom_icon.png';
   static const String expenseBottomIcon = '${iconPath}expense_bottom_icon.png';
-  static const String Icon = '${iconPath}_icon.png';
+  static const String icon = '${iconPath}_icon.png';
 
   ///images
   static const String imagePath = 'assets/images/';
@@ -102,7 +103,7 @@ class StringRes {
   /// text Style
   static TextStyle appBarTitle = TextStyle(
     color: Colors.black,
-    fontSize: SizerUtil.deviceType == DeviceType.tablet ? 12.sp : 15.5.sp,
-    fontWeight: FontWeight.w600
+    fontSize: Device.screenType == ScreenType.tablet ? 12.sp : 15.5.sp,
+    fontWeight: FontWeight.w600,
   );
 }

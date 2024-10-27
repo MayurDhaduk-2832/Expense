@@ -1,9 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-typedef void OnTap(double position);
+typedef OnTap = void Function(double position);
 
 class DotsIndicator extends StatelessWidget {
   final int dotsCount;
@@ -16,7 +15,7 @@ class DotsIndicator extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
 
   DotsIndicator({
-    Key? key,
+    super.key,
     required this.dotsCount,
     this.position = 0.0,
     this.decorator = const DotsDecorator(),
@@ -28,37 +27,36 @@ class DotsIndicator extends StatelessWidget {
   })  : assert(dotsCount > 0, 'dotsCount must be superior to zero'),
         assert(position >= 0, 'position must be superior or equals to zero'),
         assert(
-        position < dotsCount,
-        "position must be less than dotsCount",
+          position < dotsCount,
+          "position must be less than dotsCount",
         ),
         assert(
-        decorator.colors.isEmpty || decorator.colors.length == dotsCount,
-        "colors param in decorator must empty or have same length as dotsCount parameter",
+          decorator.colors.isEmpty || decorator.colors.length == dotsCount,
+          "colors param in decorator must empty or have same length as dotsCount parameter",
         ),
         assert(
-        decorator.activeColors.isEmpty ||
-            decorator.activeColors.length == dotsCount,
-        "activeColors param in decorator must empty or have same length as dotsCount parameter",
+          decorator.activeColors.isEmpty ||
+              decorator.activeColors.length == dotsCount,
+          "activeColors param in decorator must empty or have same length as dotsCount parameter",
         ),
         assert(
-        decorator.sizes.isEmpty || decorator.sizes.length == dotsCount,
-        "sizes param in decorator must empty or have same length as dotsCount parameter",
+          decorator.sizes.isEmpty || decorator.sizes.length == dotsCount,
+          "sizes param in decorator must empty or have same length as dotsCount parameter",
         ),
         assert(
-        decorator.activeSizes.isEmpty ||
-            decorator.activeSizes.length == dotsCount,
-        "activeSizes param in decorator must empty or have same length as dotsCount parameter",
+          decorator.activeSizes.isEmpty ||
+              decorator.activeSizes.length == dotsCount,
+          "activeSizes param in decorator must empty or have same length as dotsCount parameter",
         ),
         assert(
-        decorator.shapes.isEmpty || decorator.shapes.length == dotsCount,
-        "shapes param in decorator must empty or have same length as dotsCount parameter",
+          decorator.shapes.isEmpty || decorator.shapes.length == dotsCount,
+          "shapes param in decorator must empty or have same length as dotsCount parameter",
         ),
         assert(
-        decorator.activeShapes.isEmpty ||
-            decorator.activeShapes.length == dotsCount,
-        "activeShapes param in decorator must empty or have same length as dotsCount parameter",
-        ),
-        super(key: key);
+          decorator.activeShapes.isEmpty ||
+              decorator.activeShapes.length == dotsCount,
+          "activeShapes param in decorator must empty or have same length as dotsCount parameter",
+        );
 
   Widget _wrapInkwell(Widget dot, int index) {
     return InkWell(
@@ -103,21 +101,21 @@ class DotsIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final dotsList = List<Widget>.generate(
       dotsCount,
-          (i) => _buildDot(context, i),
+      (i) => _buildDot(context, i),
     );
     final dots = reversed ? dotsList.reversed.toList() : dotsList;
 
     return axis == Axis.vertical
         ? Column(
-      mainAxisAlignment: mainAxisAlignment,
-      mainAxisSize: mainAxisSize,
-      children: dots,
-    )
+            mainAxisAlignment: mainAxisAlignment,
+            mainAxisSize: mainAxisSize,
+            children: dots,
+          )
         : Row(
-      mainAxisAlignment: mainAxisAlignment,
-      mainAxisSize: mainAxisSize,
-      children: dots,
-    );
+            mainAxisAlignment: mainAxisAlignment,
+            mainAxisSize: mainAxisSize,
+            children: dots,
+          );
   }
 }
 
@@ -237,4 +235,3 @@ class DotsDecorator {
     return shapes.isNotEmpty ? shapes[index] : shape;
   }
 }
-

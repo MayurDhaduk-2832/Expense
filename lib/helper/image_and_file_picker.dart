@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -48,7 +49,7 @@ class HelperFunctions {
   static Future<String> getPath() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
-    print("==>>>> ${appDocPath}");
+    log("==>>>> $appDocPath");
     return appDocPath;
   }
 }

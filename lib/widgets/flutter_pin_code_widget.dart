@@ -1,13 +1,12 @@
 import 'package:expense_tracker/res/app_colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sizer/sizer.dart';
 import '../res/strings.dart';
 
 class PinCodeWidget extends StatefulWidget {
-   PinCodeWidget(
-      {Key? key,
+  const PinCodeWidget(
+      {super.key,
       required this.onFullPin,
       this.firstEnterInApp,
       required this.initialPinLength,
@@ -15,14 +14,13 @@ class PinCodeWidget extends StatefulWidget {
       this.onChangedPinLength,
       this.leftBottomWidget = const SizedBox(),
       this.clearOnFilled = true,
-      this.reEnterPin})
-      : super(key: key);
+      this.reEnterPin});
 
   /// reenter pin
-  bool? reEnterPin;
+  final bool? reEnterPin;
 
   /// first time enter
-  bool? firstEnterInApp;
+  final bool? firstEnterInApp;
 
   /// Callback after all pins input
   final void Function(String pin, PinCodeState state) onFullPin;
@@ -121,29 +119,33 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: 10.h),
-          Text( widget.firstEnterInApp == false ? "Enter your Pin":
-            widget.reEnterPin == true
-                ? "Ok. Re type your PIN again."
-                : "Let’s  setup your PIN",
+          Text(
+            widget.firstEnterInApp == false
+                ? "Enter your Pin"
+                : widget.reEnterPin == true
+                    ? "Ok. Re type your PIN again."
+                    : "Let’s  setup your PIN",
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 15.sp,
                 color: AppColors.whiteTextColor),
           ),
-          SizedBox(height: SizerUtil.deviceType == DeviceType.tablet ? 6.h : 10.h),
+          SizedBox(height: Device.screenType == ScreenType.tablet ? 6.h : 10.h),
           SizedBox(
-            width: SizerUtil.deviceType == DeviceType.tablet ? 270 : 180,
+            width: Device.screenType == ScreenType.tablet ? 270 : 180,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(pinLength, (index) {
-                double size = SizerUtil.deviceType == DeviceType.tablet ? 40 : 32.0;
+                double size =
+                    Device.screenType == ScreenType.tablet ? 40 : 32.0;
                 final isFilled = pin.length > index ? true : false;
                 return Container(
                     width: size,
                     height: size,
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color(0xFFEEE5FF).withOpacity(0.4), width: 3),
+                          color: const Color(0xFFEEE5FF).withOpacity(0.4),
+                          width: 3),
                       shape: BoxShape.circle,
                       color: isFilled
                           ? AppColors.whiteTextColor
@@ -253,10 +255,10 @@ class _MeasureSizeRenderObject extends RenderProxyBox {
 
 class MeasureSize extends SingleChildRenderObjectWidget {
   const MeasureSize({
-    Key? key,
+    super.key,
     required this.onChange,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required Widget super.child,
+  });
 
   /// Function to be called when layout changes
   final OnWidgetSizeChange onChange;

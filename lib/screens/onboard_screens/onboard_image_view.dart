@@ -7,7 +7,7 @@ import '../../res/strings.dart';
 import '../../widgets/dot_indicator.dart';
 
 class OnBoardImageView extends StatefulWidget {
-  const OnBoardImageView({Key? key}) : super(key: key);
+  const OnBoardImageView({super.key});
 
   @override
   State<OnBoardImageView> createState() => _OnBoardImageViewState();
@@ -63,28 +63,32 @@ class _OnBoardImageViewState extends State<OnBoardImageView> {
           position: currentIndex.toDouble(),
           decorator: const DotsDecorator(
             spacing: EdgeInsets.symmetric(horizontal: 8),
-            size:  Size.square(10.0),
-           activeSize:  Size.square(16.0) ,
-            color: AppColors.secondButtonColor, // Inactive color
+            size: Size.square(10.0),
+            activeSize: Size.square(16.0),
+            color: AppColors.secondButtonColor,
+            // Inactive color
             activeColor: AppColors.buttonColor,
           ),
         ),
       ],
     );
   }
-
 }
 
 class Slider extends StatelessWidget {
-  String image, title, description;
+  final String image, title, description;
 
-  //Constructor created
-  Slider({required this.image, required this.title, required this.description});
+  const Slider({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-     padding: EdgeInsets.symmetric(horizontal: 11.w),
+      padding: EdgeInsets.symmetric(horizontal: 11.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -92,17 +96,18 @@ class Slider extends StatelessWidget {
           SizedBox(height: 4.h),
           Text(title,
               style: TextStyle(
-                fontSize: SizerUtil.deviceType == DeviceType.tablet ? 15.sp : 25.sp,
+                fontSize:
+                    Device.screenType == ScreenType.tablet ? 15.sp : 25.sp,
                 fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.center),
           SizedBox(height: 2.h),
           Text(description,
               style: TextStyle(
-                fontSize:SizerUtil.deviceType == DeviceType.tablet ? 8.sp : 12.sp,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFF91919F)
-              ),
+                  fontSize:
+                      Device.screenType == ScreenType.tablet ? 8.sp : 12.sp,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF91919F)),
               textAlign: TextAlign.center),
           SizedBox(height: 4.h),
         ],

@@ -41,7 +41,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AppDataStore.instance),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -50,49 +50,50 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-        builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            fontFamily: "Inter",
-            primarySwatch: Colors.blue,
-          ),
-          // home: HomePage(),
-          initialRoute: SharedPreferencesConst.getsAppPin() != "" ? "/setUpPin" : "/onBoard",
-          routes: {
-            "/onBoard" : (context) => const OnBoardScreen(),
-            "/signup" : (context) => const SignUpScreen(),
-            "/login" : (context) => const LoginScreen(),
-            "/otpVerification" : (context) => const OtpVerificationScreen(),
-            "/forgotPassword" : (context) => const ForgotPasswordScreen(),
-            "/sendMailSuccess" : (context) => const SendMailSuccessScreen(),
-            "/resetPassword" : (context) => const ResetPasswordScreen(),
-            "/setUpPin" : (context) => const SetupPinScreen(),
-            "/setUpAccount" : (context) => const SetupAccountScreen(),
-            "/dashBoard" : (context) => const DashBoardScreen(),
-            "/home" : (context) => const HomeScreen(),
-            "/addExpenses" : (context) => const AddExpensesScreen(),
-            "/notification" : (context) => const NotificationScreen(),
-            "/transaction" : (context) => const TransactionScreen(),
-            "/financialReport" : (context) => const FinancialReportScreen(),
-            "/fullFinancialReport" : (context) => const FullFinancialReportScreen(),
-            "/incomeExpenseDetailScreen" : (context) => const IncomeExpenseDetailScreen(),
-            "/budget" : (context) => const BudgetScreen(),
-            "/createBudget" : (context) => const CreateBudgetScreen(),
-            "/budgetDetail" : (context) => const BudgetDetailScreen(),
-            "/account" : (context) => const AccountScreen(),
-            "/accountDetails" : (context) => const AccountDetailScreen(),
-            "/addEditAccount" : (context) => const AddEditAccountScreen(),
-            "/setting" : (context) => const SettingScreen(),
-            "/settingList" : (context) => const SettingListScreen(),
-            "/setNotification" : (context) => const SetNotificationScreen(),
-            "/exportData" : (context) => const ExportDataScreen(),
-          },
-        );
-      }
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          fontFamily: "Inter",
+          primarySwatch: Colors.blue,
+        ),
+        // home: HomePage(),
+        initialRoute: SharedPreferencesConst.getsAppPin() != ""
+            ? "/setUpPin"
+            : "/onBoard",
+        routes: {
+          "/onBoard": (context) => const OnBoardScreen(),
+          "/signup": (context) => const SignUpScreen(),
+          "/login": (context) => const LoginScreen(),
+          "/otpVerification": (context) => const OtpVerificationScreen(),
+          "/forgotPassword": (context) => const ForgotPasswordScreen(),
+          "/sendMailSuccess": (context) => const SendMailSuccessScreen(),
+          "/resetPassword": (context) => const ResetPasswordScreen(),
+          "/setUpPin": (context) => const SetupPinScreen(),
+          "/setUpAccount": (context) => const SetupAccountScreen(),
+          "/dashBoard": (context) => const DashBoardScreen(),
+          "/home": (context) => const HomeScreen(),
+          "/addExpenses": (context) => const AddExpensesScreen(),
+          "/notification": (context) => const NotificationScreen(),
+          "/transaction": (context) => const TransactionScreen(),
+          "/financialReport": (context) => const FinancialReportScreen(),
+          "/fullFinancialReport": (context) =>
+              const FullFinancialReportScreen(),
+          "/incomeExpenseDetailScreen": (context) =>
+              const IncomeExpenseDetailScreen(),
+          "/budget": (context) => const BudgetScreen(),
+          "/createBudget": (context) => const CreateBudgetScreen(),
+          "/budgetDetail": (context) => const BudgetDetailScreen(),
+          "/account": (context) => const AccountScreen(),
+          "/accountDetails": (context) => const AccountDetailScreen(),
+          "/addEditAccount": (context) => const AddEditAccountScreen(),
+          "/setting": (context) => const SettingScreen(),
+          "/settingList": (context) => const SettingListScreen(),
+          "/setNotification": (context) => const SetNotificationScreen(),
+          "/exportData": (context) => const ExportDataScreen(),
+        },
+      );
+    });
   }
 }
-

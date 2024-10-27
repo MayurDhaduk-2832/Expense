@@ -13,7 +13,7 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
 
 class AddEditAccountScreen extends StatefulWidget {
-  const AddEditAccountScreen({Key? key}) : super(key: key);
+  const AddEditAccountScreen({super.key});
 
   @override
   State<AddEditAccountScreen> createState() => _AddEditAccountScreenState();
@@ -39,7 +39,7 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
   Widget build(BuildContext context) {
     bool editView = false;
     AccountModel model = AccountModel();
-    if(ModalRoute.of(context)!.settings.arguments != null){
+    if (ModalRoute.of(context)!.settings.arguments != null) {
       editView = true;
       model = ModalRoute.of(context)!.settings.arguments as AccountModel;
       _nameController.text = model.accName!;
@@ -65,13 +65,16 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: CommonBackButton(
-                          color: AppColors.whiteTextColor,
-                        )),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: CommonBackButton(
+                        color: AppColors.whiteTextColor,
+                      ),
+                    ),
                     Text(
-                      editView ? StringRes.editAccount : StringRes.addNewAccount,
+                      editView
+                          ? StringRes.editAccount
+                          : StringRes.addNewAccount,
                       style: TextStyle(
                           color: AppColors.whiteTextColor,
                           fontSize: StringRes.appBarTitle.fontSize,
@@ -81,12 +84,15 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                         onTap: () {
-                          Provider.of<AppDataStore>(context,
-                              listen: false).removeAccount(model);
+                          Provider.of<AppDataStore>(context, listen: false)
+                              .removeAccount(model);
                           Navigator.pop(context);
                         },
                         child: Image.asset(StringRes.deleteIcon,
-                            height: SizerUtil.deviceType == DeviceType.tablet ? 45: 30, color: AppColors.whiteTextColor),
+                            height: Device.screenType == ScreenType.tablet
+                                ? 45
+                                : 30,
+                            color: AppColors.whiteTextColor),
                       ),
                     ),
                   ],
@@ -126,9 +132,9 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                     prefixIconConstraints:
-                        BoxConstraints(minWidth: 0, minHeight: 0),
+                        const BoxConstraints(minWidth: 0, minHeight: 0),
                     prefixIcon: Padding(
-                      padding: EdgeInsets.only(right: 3),
+                      padding: const EdgeInsets.only(right: 3),
                       child: Text(
                         "\$",
                         style: TextStyle(
@@ -145,7 +151,7 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
               Container(
                 padding: EdgeInsets.only(
                     left: 5.33.w, right: 5.33.w, bottom: 4.h, top: 3.h),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
@@ -168,8 +174,10 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
                     SizedBox(height: 2.h),
                     CustomDropDownField(
                       title: "Account Type",
-                      selectedValue: _selectAccountType.isEmpty ? null : _selectAccountType,
-                      itemList: ["Saving", "Current", "Other"],
+                      selectedValue: _selectAccountType.isEmpty
+                          ? null
+                          : _selectAccountType,
+                      itemList: const ["Saving", "Current", "Other"],
                       onChange: (val) {
                         _selectAccountType = val!;
                       },
@@ -190,40 +198,38 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
                         childAspectRatio: 1.8,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          ...bankImageList
-                              .map(
-                                (e) => GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectBank = e;
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 1.w, vertical: 1.w),
-                                    decoration: BoxDecoration(
+                          ...bankImageList.map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectBank = e;
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 1.w, vertical: 1.w),
+                                decoration: BoxDecoration(
+                                    color: _selectBank == e
+                                        ? const Color(0xFFEEE5FF)
+                                        : const Color(0xFFF1F1FA),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
                                         color: _selectBank == e
-                                            ? const Color(0xFFEEE5FF)
-                                            : const Color(0xFFF1F1FA),
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                            color: _selectBank == e
-                                                ? AppColors.buttonColor
-                                                : const Color(0xFFF1F1FA))),
-                                    alignment: Alignment.center,
-                                    child: Image.asset(e,
-                                        height: SizerUtil.deviceType ==
-                                                DeviceType.tablet
+                                            ? AppColors.buttonColor
+                                            : const Color(0xFFF1F1FA))),
+                                alignment: Alignment.center,
+                                child: Image.asset(e,
+                                    height:
+                                        Device.screenType == ScreenType.tablet
                                             ? 4.h
                                             : 2.6.h,
-                                        width: SizerUtil.deviceType ==
-                                                DeviceType.tablet
+                                    width:
+                                        Device.screenType == ScreenType.tablet
                                             ? 18.w
                                             : 12.w),
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                              ),
+                            ),
+                          ),
                           Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 1.w, vertical: 1.w),
@@ -247,34 +253,43 @@ class _AddEditAccountScreenState extends State<AddEditAccountScreen> {
                           if (_formKey.currentState!.validate()) {
                             if (_selectAccountType != '') {
                               if (_selectBank != '') {
-                               if(_amountController.text != ''){
-                                 if(editView){
-                                   Provider.of<AppDataStore>(context,
-                                       listen: false).removeAccount(model);
-                                   Provider.of<AppDataStore>(context,
-                                       listen: false).addNewAccount(AccountModel(
-                                     id: model.id,
-                                     accName: _nameController.text,
-                                     accIcon: _selectBank,
-                                     accType: _selectAccountType,
-                                     accBalance: double.parse(
-                                         _amountController.text),),);
-                                 }else {
-                                   Provider.of<AppDataStore>(context,
-                                       listen: false)
-                                       .addNewAccount(AccountModel(
-                                     id: DateTime.now().microsecondsSinceEpoch,
-                                     accName: _nameController.text,
-                                     accIcon: _selectBank,
-                                     accType: _selectAccountType,
-                                     accBalance: double.parse(
-                                         _amountController.text),),);
-                                 }
-                                 Navigator.pop(context);
-                               }else{
-                                 Fluttertoast.showToast(
-                                     msg: "Please enter amount");
-                               }
+                                if (_amountController.text != '') {
+                                  if (editView) {
+                                    Provider.of<AppDataStore>(context,
+                                            listen: false)
+                                        .removeAccount(model);
+                                    Provider.of<AppDataStore>(context,
+                                            listen: false)
+                                        .addNewAccount(
+                                      AccountModel(
+                                        id: model.id,
+                                        accName: _nameController.text,
+                                        accIcon: _selectBank,
+                                        accType: _selectAccountType,
+                                        accBalance: double.parse(
+                                            _amountController.text),
+                                      ),
+                                    );
+                                  } else {
+                                    Provider.of<AppDataStore>(context,
+                                            listen: false)
+                                        .addNewAccount(
+                                      AccountModel(
+                                        id: DateTime.now()
+                                            .microsecondsSinceEpoch,
+                                        accName: _nameController.text,
+                                        accIcon: _selectBank,
+                                        accType: _selectAccountType,
+                                        accBalance: double.parse(
+                                            _amountController.text),
+                                      ),
+                                    );
+                                  }
+                                  Navigator.pop(context);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: "Please enter amount");
+                                }
                               } else {
                                 Fluttertoast.showToast(
                                     msg: "Please select Bank");

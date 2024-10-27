@@ -8,7 +8,7 @@ import '../../res/app_colors.dart';
 import '../../res/strings.dart';
 
 class SetNotificationScreen extends StatefulWidget {
-  const SetNotificationScreen({Key? key}) : super(key: key);
+  const SetNotificationScreen({super.key});
 
   @override
   State<SetNotificationScreen> createState() => _SetNotificationScreenState();
@@ -33,10 +33,8 @@ class _SetNotificationScreenState extends State<SetNotificationScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: CommonBackButton()
-                ),
+                const Align(
+                    alignment: Alignment.centerLeft, child: CommonBackButton()),
                 Text(
                   StringRes.notification,
                   style: StringRes.appBarTitle,

@@ -7,7 +7,7 @@ import '../../res/app_colors.dart';
 import '../../res/strings.dart';
 
 class ExportDataScreen extends StatefulWidget {
-  const ExportDataScreen({Key? key}) : super(key: key);
+  const ExportDataScreen({super.key});
 
   @override
   State<ExportDataScreen> createState() => _ExportDataScreenState();
@@ -64,7 +64,7 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                         color: AppColors.textColor),
                   ),
                   SizedBox(height: 1.2.h),
-                  CustomDropDownField(title: "All",itemList: []),
+                  CustomDropDownField(title: "All", itemList: const []),
                   SizedBox(height: 3.h),
                   Text(
                     "When date range?",
@@ -74,7 +74,8 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                         color: AppColors.textColor),
                   ),
                   SizedBox(height: 1.2.h),
-                  CustomDropDownField(title: "Last 30 days",itemList: []),
+                  CustomDropDownField(
+                      title: "Last 30 days", itemList: const []),
                   SizedBox(height: 3.h),
                   Text(
                     "What format do you want to export?",
@@ -84,9 +85,9 @@ class _ExportDataScreenState extends State<ExportDataScreen> {
                         color: AppColors.textColor),
                   ),
                   SizedBox(height: 1.2.h),
-                  CustomDropDownField(title: "CSV",itemList: []),
-                  Spacer(),
-                  CommonButton(onTap: (){}, title: "Export")
+                  CustomDropDownField(title: "CSV", itemList: const []),
+                  const Spacer(),
+                  CommonButton(onTap: () {}, title: "Export")
                 ],
               ),
             ),

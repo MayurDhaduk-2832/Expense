@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-
 class OtpTextField extends StatefulWidget {
   final TextEditingController controller;
-  const OtpTextField({Key? key,required this.controller}) : super(key: key);
+  const OtpTextField({super.key, required this.controller});
 
   @override
   State<OtpTextField> createState() => _OtpTextFieldState();
@@ -26,6 +27,8 @@ class _OtpTextFieldState extends State<OtpTextField> {
             obscuringCharacter: '*',
             animationType: AnimationType.none,
             validator: (v) {
+              return null;
+
               // if (v!.length < 3) {
               //   return "I'm from validator";
               // } else {
@@ -44,30 +47,28 @@ class _OtpTextFieldState extends State<OtpTextField> {
               borderRadius: BorderRadius.circular(5),
               fieldHeight: 39,
               fieldWidth: 39,
-              activeFillColor:
-              Colors.white,
+              activeFillColor: Colors.white,
             ),
             cursorHeight: 0,
             cursorColor: Colors.black,
-            animationDuration: Duration(milliseconds: 300),
-            textStyle: TextStyle(fontSize: 20, height: 1.6,color: Colors.black),
+            animationDuration: const Duration(milliseconds: 300),
+            textStyle:
+                const TextStyle(fontSize: 20, height: 1.6, color: Colors.black),
             backgroundColor: Colors.white,
             enableActiveFill: true,
             controller: TextEditingController(),
             keyboardType: TextInputType.number,
-
             onCompleted: (v) {
-              print("Completed");
+              log("Completed");
             },
             onChanged: (value) {
-              print(value);
-              setState((){
-              length = value.length;
+              log(value);
+              setState(() {
+                length = value.length;
               });
-
             },
             beforeTextPaste: (text) {
-              print("Allowing to paste $text");
+              log("Allowing to paste $text");
               return true;
             },
           ),
@@ -93,14 +94,18 @@ class _OtpTextFieldState extends State<OtpTextField> {
   }
 
   Widget _dotNone() {
-    return const SizedBox(height: 16,width: 16,);
+    return const SizedBox(
+      height: 16,
+      width: 16,
+    );
   }
 
   Widget _dot() {
     return Container(
       width: 16,
       height: 16,
-      decoration: const BoxDecoration(color: Color(0xFFE0E2E9),shape: BoxShape.circle),
+      decoration:
+          const BoxDecoration(color: Color(0xFFE0E2E9), shape: BoxShape.circle),
     );
   }
 }

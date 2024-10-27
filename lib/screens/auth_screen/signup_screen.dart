@@ -11,7 +11,7 @@ import '../../res/strings.dart';
 import '../../widgets/custom_text_field.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -38,9 +38,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Stack(
               alignment: Alignment.center,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: CommonBackButton()
+                  child: CommonBackButton(),
                 ),
                 Text(
                   StringRes.signUp,
@@ -52,145 +52,160 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: SingleChildScrollView(
-                  physics:const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
-                   children: [
-                     SizedBox(height: 12.h),
-                     CustomTextField(
-                       hintText: "Name",
-                       controller: _nameController,
-                     ),
-                     SizedBox(height: 3.h),
-                     CustomTextField(
-                       hintText: "Email",
-                       controller: _emailController,
-                     ),
-                     SizedBox(height: 3.h),
-                     CustomTextField(
-                       hintText: "Password",
-                       controller: _passwordController,
-                       obscureText: _showPassword,
-                       onTap: () {
-                         setState(() {
-                           _showPassword = !_showPassword;
-                         });
-                       },
-                     ),
-                     SizedBox(height: 2.h),
-                     Row(
-                       children: [
-                         GestureDetector(
-                           onTap: () {
-                             setState(() {
-                               _checkTerms = !_checkTerms;
-                             });
-                           },
-                           child: Container(
-                             height:SizerUtil.deviceType == DeviceType.tablet ? 40: 24,
-                             width:SizerUtil.deviceType == DeviceType.tablet ? 40: 24,
-                             alignment: Alignment.center,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(4),
-                                 border:
-                                 Border.all(color: AppColors.buttonColor, width: 2),
-                                 color: _checkTerms
-                                     ? AppColors.buttonColor
-                                     : Colors.transparent),
-                             child: Icon(Icons.check, size:SizerUtil.deviceType == DeviceType.tablet ? 28 : 18, color: Colors.white),
-                           ),
-                         ),
-                         SizedBox(width: 3.w),
-                         Expanded(
-                           child: RichText(
-                             text: TextSpan(
-                                 text: "By signing up, you agree to the ",
-                                 style: TextStyle(
-                                     color: Colors.black,
-                                     fontWeight: FontWeight.w500,
-                                     fontSize:SizeUtil.f12),
-                                 children: [
-                                   TextSpan(
-                                     text: "Terms of Service and Privacy Policy",
-                                     style: TextStyle(
-                                         color: AppColors.buttonColor,
-                                         fontWeight: FontWeight.w500,
-                                         fontSize:SizeUtil.f12),
-                                   )
-                                 ]),
-                           ),
-                         ),
-                       ],
-                     ),
-                     SizedBox(height: 3.h),
-                     CommonButton(onTap: () {
-                       Navigator.pushNamed(context, "/otpVerification");
-                     }, title: StringRes.signUp),
-                     SizedBox(height: 1.5.h),
-                     Text(
-                       "Or with",
-                       style: TextStyle(
-                           color: const Color(0xFF91919F),
-                           fontWeight: FontWeight.w600,
-                           fontSize:SizeUtil.f12),
-                     ),
-                     SizedBox(height: 1.5.h),
+                    children: [
+                      SizedBox(height: 12.h),
+                      CustomTextField(
+                        hintText: "Name",
+                        controller: _nameController,
+                      ),
+                      SizedBox(height: 3.h),
+                      CustomTextField(
+                        hintText: "Email",
+                        controller: _emailController,
+                      ),
+                      SizedBox(height: 3.h),
+                      CustomTextField(
+                        hintText: "Password",
+                        controller: _passwordController,
+                        obscureText: _showPassword,
+                        onTap: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 2.h),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _checkTerms = !_checkTerms;
+                              });
+                            },
+                            child: Container(
+                              height: Device.screenType == ScreenType.tablet
+                                  ? 40
+                                  : 24,
+                              width: Device.screenType == ScreenType.tablet
+                                  ? 40
+                                  : 24,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                      color: AppColors.buttonColor, width: 2),
+                                  color: _checkTerms
+                                      ? AppColors.buttonColor
+                                      : Colors.transparent),
+                              child: Icon(Icons.check,
+                                  size: Device.screenType == ScreenType.tablet
+                                      ? 28
+                                      : 18,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                  text: "By signing up, you agree to the ",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: SizeUtil.f12),
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          "Terms of Service and Privacy Policy",
+                                      style: TextStyle(
+                                          color: AppColors.buttonColor,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: SizeUtil.f12),
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 3.h),
+                      CommonButton(
+                          onTap: () {
+                            Navigator.pushNamed(context, "/otpVerification");
+                          },
+                          title: StringRes.signUp),
+                      SizedBox(height: 1.5.h),
+                      Text(
+                        "Or with",
+                        style: TextStyle(
+                            color: const Color(0xFF91919F),
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeUtil.f12),
+                      ),
+                      SizedBox(height: 1.5.h),
 
-                     /// login with google
-                     GestureDetector(
-                       onTap: () {},
-                       child: Container(
-                         height:SizerUtil.deviceType == DeviceType.tablet ? 90 : 56,
-                         alignment: Alignment.center,
-                         decoration: BoxDecoration(
-                           border: Border.all(
-                               width: 1, color: Color.fromRGBO(241, 241, 250, 1)),
-                           borderRadius: BorderRadius.circular(16),
-                         ),
-                         child: Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                             Image.asset(StringRes.googleIcon, height: 30),
-                             SizedBox(width: 2.w),
-                             Text(
-                               StringRes.signUpwithGoogle,
-                               style: TextStyle(
-                                   color: Colors.black,
-                                   fontSize: SizeUtil.f14,
-                                   fontWeight: FontWeight.w500),
-                             ),
-                           ],
-                         ),
-                       ),
-                     ),
-                     SizedBox(height: 2.2.h),
-                     RichText(
-                       text: TextSpan(
-                           text: "Already have an account? ",
-                           style: TextStyle(
-                               color: Color(0xFF91919F),
-                               fontWeight: FontWeight.w500,
-                               fontSize: SizeUtil.f12),
-                           children: [
-                             TextSpan(
-                               text: "Login",
-                               recognizer: TapGestureRecognizer()..onTap = (){
-                                 Navigator.pop(context);
-                                 Navigator.pushNamed(context, "/login");
-                               },
-                               style: TextStyle(
-                                   color: AppColors.buttonColor,
-                                   fontWeight: FontWeight.w500,
-                                   fontSize: SizeUtil.f12),
-                             )
-                           ]),
-                     ),
-                     SizedBox(
-                       height: 2.h,
-                     ),
-                   ],
-            ),
+                      /// login with google
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height:
+                              Device.screenType == ScreenType.tablet ? 90 : 56,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1,
+                                color: const Color.fromRGBO(241, 241, 250, 1)),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(StringRes.googleIcon, height: 30),
+                              SizedBox(width: 2.w),
+                              Text(
+                                StringRes.signUpwithGoogle,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: SizeUtil.f14,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 2.2.h),
+                      RichText(
+                        text: TextSpan(
+                            text: "Already have an account? ",
+                            style: TextStyle(
+                                color: const Color(0xFF91919F),
+                                fontWeight: FontWeight.w500,
+                                fontSize: SizeUtil.f12),
+                            children: [
+                              TextSpan(
+                                text: "Login",
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context, "/login");
+                                  },
+                                style: TextStyle(
+                                    color: AppColors.buttonColor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: SizeUtil.f12),
+                              )
+                            ]),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                    ],
+                  ),
                 ),
-              ),),
+              ),
+            ),
           ],
         ),
       ),

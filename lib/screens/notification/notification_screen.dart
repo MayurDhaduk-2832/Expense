@@ -7,7 +7,7 @@ import '../../res/app_colors.dart';
 import '../../res/strings.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -24,42 +24,49 @@ class _NotificationScreenState extends State<NotificationScreen> {
             height: 7.h,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 5.33.w,right: 2.w),
+            padding: EdgeInsets.only(left: 5.33.w, right: 2.w),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: CommonBackButton()
+                  child: CommonBackButton(),
                 ),
                 Text(
                   StringRes.notification,
                   style: StringRes.appBarTitle,
                 ),
                 Align(
-                  alignment: Alignment.centerRight,
-                  child: PopupMenuButton(
-                    iconSize: SizerUtil.deviceType == DeviceType.tablet ? 45 : 25,
-                    padding: EdgeInsets.zero,
-                    itemBuilder:(context) => [
-                      const PopupMenuItem(child: Text("Mark all read"),),
-                      const PopupMenuItem(child: Text("Remove all"),),
-                    ],
-                  )
+                    alignment: Alignment.centerRight,
+                    child: PopupMenuButton(
+                      iconSize:
+                          Device.screenType == ScreenType.tablet ? 45 : 25,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          child: Text("Mark all read"),
+                        ),
+                        const PopupMenuItem(
+                          child: Text("Remove all"),
+                        ),
+                      ],
+                    )
 
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     FocusManager.instance.primaryFocus?.unfocus();
-                  //     Navigator.pop(context);
-                  //   },
-                  //   child: const Icon(Icons.more_horiz,
-                  //       color: AppColors.textColor),
-                  // ),
-                ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     FocusManager.instance.primaryFocus?.unfocus();
+                    //     Navigator.pop(context);
+                    //   },
+                    //   child: const Icon(Icons.more_horiz,
+                    //       color: AppColors.textColor),
+                    // ),
+                    ),
               ],
             ),
           ),
-          SizedBox(height: 2.h,),
+          SizedBox(
+            height: 2.h,
+          ),
           // Padding(
           //   padding: EdgeInsets.only(top: 40.h),
           //     child:Text(
@@ -76,8 +83,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               itemBuilder: (context, index) {
                 return _item();
               },
-              separatorBuilder: (context,index){
-                return Divider();
+              separatorBuilder: (context, index) {
+                return const Divider();
               },
             ),
           ),
@@ -88,7 +95,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget _item() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5.33.w,vertical: 0.5.h),
+      padding: EdgeInsets.symmetric(horizontal: 5.33.w, vertical: 0.5.h),
       child: Row(
         children: [
           Expanded(
@@ -102,7 +109,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       color: AppColors.textColor,
                       fontSize: SizeUtil.f12),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   "Your Shopping budget has exceeds the lim....",
                   style: TextStyle(

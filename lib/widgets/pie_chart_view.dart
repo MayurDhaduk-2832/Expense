@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'dart:math' as math;
 import 'package:sizer/sizer.dart';
+
 class PieChartView extends StatefulWidget {
-  final Map<String,double> dataMap;
-  const PieChartView({required this.dataMap,Key? key}) : super(key: key);
+  final Map<String, double> dataMap;
+  const PieChartView({required this.dataMap, super.key});
 
   @override
-  _PieChartViewState createState() => _PieChartViewState();
+  State<PieChartView> createState() => _PieChartViewState();
 }
 
 class _PieChartViewState extends State<PieChartView> {
@@ -21,7 +22,7 @@ class _PieChartViewState extends State<PieChartView> {
   @override
   Widget build(BuildContext context) {
     return PieChart(
-  //    key: ValueKey(),
+      //    key: ValueKey(),
       dataMap: widget.dataMap,
       animationDuration: const Duration(milliseconds: 800),
       chartLegendSpacing: 64,
@@ -29,18 +30,17 @@ class _PieChartViewState extends State<PieChartView> {
       colorList: colorList,
       initialAngleInDegree: 0,
       chartType: ChartType.ring,
-      legendLabels: {},
+      legendLabels: const {},
       centerText: "\$132",
       centerTextStyle: TextStyle(
-        fontWeight: FontWeight.w700,
-        fontSize: 20.sp,
-        color: AppColors.textColor
-      ),
+          fontWeight: FontWeight.w700,
+          fontSize: 20.sp,
+          color: AppColors.textColor),
       legendOptions: const LegendOptions(
         showLegendsInRow: false,
         showLegends: false,
         legendShape: BoxShape.circle,
-        legendTextStyle: const TextStyle(
+        legendTextStyle: TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -52,7 +52,7 @@ class _PieChartViewState extends State<PieChartView> {
       ),
       ringStrokeWidth: 16,
       emptyColor: Colors.grey,
-      gradientList:  gradientList,
+      gradientList: gradientList,
       emptyColorGradient: const [
         Color(0xff6c5ce7),
         Colors.blue,
@@ -60,6 +60,7 @@ class _PieChartViewState extends State<PieChartView> {
       baseChartColor: Colors.transparent,
     );
   }
+
   final dataMap = <String, double>{
     "Flutter": 5,
     "React": 3,
@@ -88,6 +89,4 @@ class _PieChartViewState extends State<PieChartView> {
       const Color.fromRGBO(254, 154, 92, 1),
     ]
   ];
-
-
 }

@@ -10,13 +10,14 @@ import '../home/home_screen.dart';
 import '../transaction/trasaction_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({Key? key}) : super(key: key);
+  const DashBoardScreen({super.key});
 
   @override
   State<DashBoardScreen> createState() => _DashBoardScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProviderStateMixin {
+class _DashBoardScreenState extends State<DashBoardScreen>
+    with SingleTickerProviderStateMixin {
   int currentIndex = 0;
   AnimationController? animationController;
   Animation? degOneTranslationAnimation;
@@ -33,18 +34,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
   void initState() {
     // TODO: implement initState
     super.initState();
-    animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 250));
-    degOneTranslationAnimation = Tween(begin: 0.0,end: 1.0).animate(animationController!);
-    rotationAnimation = Tween(begin: 0.0,end: 45.0).animate(CurvedAnimation(parent: animationController!, curve: Curves.easeInOut));
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
+    degOneTranslationAnimation =
+        Tween(begin: 0.0, end: 1.0).animate(animationController!);
+    rotationAnimation = Tween(begin: 0.0, end: 45.0).animate(
+        CurvedAnimation(parent: animationController!, curve: Curves.easeInOut));
     animationController?.addListener(() {
-      if(animationController!.status == AnimationStatus.forward){
+      if (animationController!.status == AnimationStatus.forward) {
         showOverlay = true;
-      } else if(animationController!.status == AnimationStatus.reverse){
+      } else if (animationController!.status == AnimationStatus.reverse) {
         showOverlay = false;
       }
-      setState(() {
-
-    });});
+      setState(() {});
+    });
   }
 
   double getRadiantRadiansFromDegree(double degree) {
@@ -67,30 +70,33 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
       body: Stack(
         children: [
           _pageList[currentIndex],
-          showOverlay ? Container(
-            height: 100.h,
-            width: 100.w,
-            decoration: BoxDecoration(
-                gradient:  LinearGradient(
-                    colors: [
-                      const Color.fromRGBO(139, 80, 255, 0),
-                      const Color.fromRGBO(139, 80, 255, 0.24),
-                    ],
-                    stops: const [0.0, 1.0],
-                    begin: FractionalOffset.topCenter,
-                    end: FractionalOffset.bottomCenter,
-                    tileMode: TileMode.clamp
+          showOverlay
+              ? Container(
+                  height: 100.h,
+                  width: 100.w,
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                        Color.fromRGBO(139, 80, 255, 0),
+                        Color.fromRGBO(139, 80, 255, 0.24),
+                      ],
+                          stops: [
+                        0.0,
+                        1.0
+                      ],
+                          begin: FractionalOffset.topCenter,
+                          end: FractionalOffset.bottomCenter,
+                          tileMode: TileMode.clamp)),
                 )
-            ),
-          ): SizedBox(),
+              : const SizedBox(),
           Positioned(
             bottom: 0,
             left: 0,
             child: Container(
               width: size.width,
-              color: showOverlay ? Colors.transparent : Color(0xFFFCFCFC),
-              height: SizerUtil.deviceType == DeviceType.tablet ? 120 : 90,
-              child:   CustomPaint(
+              color: showOverlay ? Colors.transparent : const Color(0xFFFCFCFC),
+              height: Device.screenType == ScreenType.tablet ? 120 : 90,
+              child: CustomPaint(
                 size: Size(size.width, 100),
                 painter: BNBCustomPainter(),
               ),
@@ -190,9 +196,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
           ),
           Positioned(
             bottom: 0,
-            child: Container(
+            child: SizedBox(
               width: size.width,
-              height: SizerUtil.deviceType == DeviceType.tablet ? 120 : 90,
+              height: Device.screenType == ScreenType.tablet ? 120 : 90,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -219,7 +225,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
               ),
             ),
           ),
-
           Positioned(
             right: 0,
             left: 0,
@@ -228,26 +233,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
               heightFactor: 2.65,
               child: Transform.translate(
                 offset: Offset.fromDirection(
-                    getRadiantRadiansFromDegree(215), SizerUtil.deviceType == DeviceType.tablet ? degOneTranslationAnimation!.value * 150 :degOneTranslationAnimation!.value * 90),
+                    getRadiantRadiansFromDegree(215),
+                    Device.screenType == ScreenType.tablet
+                        ? degOneTranslationAnimation!.value * 150
+                        : degOneTranslationAnimation!.value * 90),
                 child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       animationController!.reverse();
-                      Navigator.pushNamed(context, "/addExpenses",arguments: IncomeExpenseModel(type: StringRes.income));
+                      Navigator.pushNamed(context, "/addExpenses",
+                          arguments:
+                              IncomeExpenseModel(type: StringRes.income));
                     },
-                    child: Image.asset(StringRes.incomeBottomIcon,width: SizerUtil.deviceType == DeviceType.tablet ? 90 :56,height: SizerUtil.deviceType == DeviceType.tablet ? 90 :56)),
-              ),
-            ),
-          ),
-          Positioned(
-              right: 0,
-              left: 0,
-              bottom: 0,
-              child: Center(
-            heightFactor: 2.65,
-              child: Transform.translate(
-                offset: Offset.fromDirection(
-                    getRadiantRadiansFromDegree(270),SizerUtil.deviceType == DeviceType.tablet ? degOneTranslationAnimation!.value * 180 : degOneTranslationAnimation!.value * 110),
-                child: Image.asset(StringRes.transactionBottomIcon,width: SizerUtil.deviceType == DeviceType.tablet ? 90 :56,height: SizerUtil.deviceType == DeviceType.tablet ? 90 :56),
+                    child: Image.asset(StringRes.incomeBottomIcon,
+                        width: Device.screenType == ScreenType.tablet ? 90 : 56,
+                        height:
+                            Device.screenType == ScreenType.tablet ? 90 : 56)),
               ),
             ),
           ),
@@ -258,16 +258,40 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
             child: Center(
               heightFactor: 2.65,
               child: Transform.translate(
-                offset:
-                Offset.fromDirection(getRadiantRadiansFromDegree(325), SizerUtil.deviceType == DeviceType.tablet ? degOneTranslationAnimation!.value * 150 : degOneTranslationAnimation!.value * 90),
+                offset: Offset.fromDirection(
+                    getRadiantRadiansFromDegree(270),
+                    Device.screenType == ScreenType.tablet
+                        ? degOneTranslationAnimation!.value * 180
+                        : degOneTranslationAnimation!.value * 110),
+                child: Image.asset(StringRes.transactionBottomIcon,
+                    width: Device.screenType == ScreenType.tablet ? 90 : 56,
+                    height: Device.screenType == ScreenType.tablet ? 90 : 56),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            left: 0,
+            bottom: 0,
+            child: Center(
+              heightFactor: 2.65,
+              child: Transform.translate(
+                offset: Offset.fromDirection(
+                    getRadiantRadiansFromDegree(325),
+                    Device.screenType == ScreenType.tablet
+                        ? degOneTranslationAnimation!.value * 150
+                        : degOneTranslationAnimation!.value * 90),
                 child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       animationController!.reverse();
-                      Navigator.pushNamed(context, "/addExpenses",arguments: IncomeExpenseModel(type: StringRes.expense));
+                      Navigator.pushNamed(context, "/addExpenses",
+                          arguments:
+                              IncomeExpenseModel(type: StringRes.expense));
                     },
                     child: Image.asset(StringRes.expenseBottomIcon,
-                        width: SizerUtil.deviceType == DeviceType.tablet ? 90 : 56,
-                        height:SizerUtil.deviceType == DeviceType.tablet ? 90 : 56)),
+                        width: Device.screenType == ScreenType.tablet ? 90 : 56,
+                        height:
+                            Device.screenType == ScreenType.tablet ? 90 : 56)),
               ),
             ),
           ),
@@ -276,23 +300,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
             left: 0,
             right: 0,
             child: Center(
-              heightFactor: SizerUtil.deviceType == DeviceType.tablet ? 1.5 : 2.3,
+              heightFactor: Device.screenType == ScreenType.tablet ? 1.5 : 2.3,
               child: SizedBox(
-                height:SizerUtil.deviceType == DeviceType.tablet ? 140 :  65.0,
-                width: SizerUtil.deviceType == DeviceType.tablet ? 140 : 65.0,
+                height: Device.screenType == ScreenType.tablet ? 140 : 65.0,
+                width: Device.screenType == ScreenType.tablet ? 140 : 65.0,
                 child: FittedBox(
                   child: FloatingActionButton(
                     backgroundColor: AppColors.buttonColor,
                     elevation: 0.1,
                     onPressed: () {
-                      if(animationController!.isCompleted) {
+                      if (animationController!.isCompleted) {
                         animationController!.reverse();
-                      }else{
+                      } else {
                         animationController!.forward();
                       }
                     },
                     child: Transform(
-                        transform: Matrix4.rotationZ(getRadiantRadiansFromDegree(rotationAnimation?.value)),
+                        transform: Matrix4.rotationZ(
+                            getRadiantRadiansFromDegree(
+                                rotationAnimation?.value)),
                         alignment: Alignment.center,
                         child: Image.asset(StringRes.addIcon)),
                   ),
@@ -324,7 +350,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
           children: [
             Image.asset(
               image,
-              height: SizerUtil.deviceType == DeviceType.tablet ? 48 : 28,
+              height: Device.screenType == ScreenType.tablet ? 48 : 28,
               color: currentIndex == index
                   ? AppColors.buttonColor
                   : const Color(0xFFC6C6C6),
@@ -333,7 +359,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
             Text(
               name,
               style: TextStyle(
-                fontSize:SizerUtil.deviceType == DeviceType.tablet ? 20 : 12,
+                fontSize: Device.screenType == ScreenType.tablet ? 20 : 12,
                 color: currentIndex == index
                     ? AppColors.buttonColor
                     : const Color(0xFFC6C6C6),
@@ -350,8 +376,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
 class BNBCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = new Paint()
-      ..color = Color(0xFFFCFCFC)
+    Paint paint = Paint()
+      ..color = const Color(0xFFFCFCFC)
       ..style = PaintingStyle.fill;
 
     Path path = Path();
@@ -360,7 +386,7 @@ class BNBCustomPainter extends CustomPainter {
     path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
     path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 15);
     path.arcToPoint(Offset(size.width * 0.60, 15),
-        radius: Radius.circular(20.0), clockwise: false);
+        radius: const Radius.circular(20.0), clockwise: false);
     path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
     path.quadraticBezierTo(size.width * 0.80, 0, size.width * 0.95, 0);
     path.quadraticBezierTo(size.width, 0, size.width, 12);

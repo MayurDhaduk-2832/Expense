@@ -11,7 +11,7 @@ import '../../widgets/back_button.dart';
 import '../../widgets/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -36,82 +36,91 @@ class _LoginScreenState extends State<LoginScreen> {
             Stack(
               alignment: Alignment.center,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: CommonBackButton()
-                ),
+                const Align(
+                    alignment: Alignment.centerLeft, child: CommonBackButton()),
                 Text(
                   StringRes.login,
                   style: StringRes.appBarTitle,
                 )
               ],
             ),
-           Expanded(child: ScrollConfiguration(
-             behavior: MyBehavior(),
-             child: SingleChildScrollView(
-               physics: const BouncingScrollPhysics(),
-               child: Column(
-                 children: [
-                   SizedBox(height: 12.h),
-                   CustomTextField(
-                     hintText: "Email",
-                     controller: _emailController,
-                   ),
-                   SizedBox(height: 3.h),
-                   CustomTextField(
-                     hintText: "Password",
-                     controller: _passwordController,
-                     obscureText: _showPassword,
-                     onTap: () {
-                       setState(() {
-                         _showPassword = !_showPassword;
-                       });
-                     },
-                   ),
-                   SizedBox(height: 5.h),
-                   CommonButton(onTap: () {
-                     Navigator.pushReplacementNamed(context, "/setUpPin",arguments: true);
-                   }, title: StringRes.login),
-                   SizedBox(height: 4.h),
-                   GestureDetector(
-                     onTap: (){
-                       Navigator.pushNamed(context, "/forgotPassword");
-                     },
-                     child: Text(
-                       "Forgot Password?",
-                       style: TextStyle(
-                           color: AppColors.buttonColor,
-                           fontWeight: FontWeight.w500,
-                           fontSize: SizeUtil.f12),
-                     ),
-                   ),
-                   SizedBox(height: 4.h),
-                   RichText(
-                     text: TextSpan(
-                         text: "Don’t have an account yet? ",
-                         style: TextStyle(
-                             color: Color(0xFF91919F),
-                             fontWeight: FontWeight.w500,
-                             fontSize: SizeUtil.f12),
-                         children: [
-                           TextSpan(
-                             text: "Sign Up",
-                             recognizer: TapGestureRecognizer()..onTap = (){
-                               Navigator.pop(context);
-                               Navigator.pushNamed(context, "/signup");
-                             },
-                             style: TextStyle(
-                                 color: AppColors.buttonColor,
-                                 fontWeight: FontWeight.w500,
-                                 fontSize: SizeUtil.f12),
-                           )
-                         ]),
-                   ),
-                   SizedBox(height: 2.h),
-                 ],
-               ),
-             ),
-           ),),
+            Expanded(
+              child: ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 12.h),
+                      CustomTextField(
+                        hintText: "Email",
+                        controller: _emailController,
+                      ),
+                      SizedBox(height: 3.h),
+                      CustomTextField(
+                        hintText: "Password",
+                        controller: _passwordController,
+                        obscureText: _showPassword,
+                        onTap: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 5.h),
+                      CommonButton(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(context, "/setUpPin",
+                              arguments: true);
+                        },
+                        title: StringRes.login,
+                      ),
+                      SizedBox(height: 4.h),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/forgotPassword");
+                        },
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            color: AppColors.buttonColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: SizeUtil.f12,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      RichText(
+                        text: TextSpan(
+                          text: "Don’t have an account yet? ",
+                          style: TextStyle(
+                            color: const Color(0xFF91919F),
+                            fontWeight: FontWeight.w500,
+                            fontSize: SizeUtil.f12,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Sign Up",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, "/signup");
+                                },
+                              style: TextStyle(
+                                color: AppColors.buttonColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: SizeUtil.f12,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -13,7 +13,7 @@ import '../../widgets/custom_drop_down_field.dart';
 import '../../widgets/custom_text_field.dart';
 
 class SetupAccountScreen extends StatefulWidget {
-  const SetupAccountScreen({Key? key}) : super(key: key);
+  const SetupAccountScreen({super.key});
 
   @override
   State<SetupAccountScreen> createState() => _SetupAccountScreenState();
@@ -33,7 +33,7 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Form(
-          key: _formKey,
+            key: _formKey,
             child: _allSets
                 ? _allSet()
                 : _setUpScreens
@@ -57,7 +57,7 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                 color: AppColors.textColor,
                 fontWeight: FontWeight.w500,
                 fontSize:
-                    SizerUtil.deviceType == DeviceType.tablet ? 20.sp : 28.sp),
+                    Device.screenType == ScreenType.tablet ? 20.sp : 28.sp),
           ),
           SizedBox(height: 3.h),
           Padding(
@@ -68,7 +68,7 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                   color: AppColors.textColor,
                   fontWeight: FontWeight.w500,
                   fontSize:
-                      SizerUtil.deviceType == DeviceType.tablet ? 9.sp : 11.sp),
+                      Device.screenType == ScreenType.tablet ? 9.sp : 11.sp),
             ),
           ),
           SizedBox(height: 5.h),
@@ -101,11 +101,12 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: CommonBackButton(
-                      color: AppColors.whiteTextColor,
-                    )),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: CommonBackButton(
+                    color: AppColors.whiteTextColor,
+                  ),
+                ),
                 Text(
                   StringRes.addNewAccount,
                   style: TextStyle(
@@ -150,9 +151,9 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                   fontWeight: FontWeight.w700,
                 ),
                 prefixIconConstraints:
-                    BoxConstraints(minWidth: 0, minHeight: 0),
+                    const BoxConstraints(minWidth: 0, minHeight: 0),
                 prefixIcon: Padding(
-                  padding: EdgeInsets.only(right: 3),
+                  padding: const EdgeInsets.only(right: 3),
                   child: Text(
                     "\$",
                     style: TextStyle(
@@ -169,7 +170,7 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
           Container(
             padding: EdgeInsets.only(
                 left: 5.33.w, right: 5.33.w, bottom: 5.h, top: 3.h),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(32), topRight: Radius.circular(32)),
@@ -180,11 +181,10 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                 CustomTextField(
                   hintText: "Name",
                   controller: _nameController,
-                  validator: (val){
-                    if(val!.isEmpty){
+                  validator: (val) {
+                    if (val!.isEmpty) {
                       return "Please enter name";
-                    }
-                    else{
+                    } else {
                       return null;
                     }
                   },
@@ -194,7 +194,7 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                   title: "Account Type",
                   selectedValue:
                       _selectAccountType.isEmpty ? null : _selectAccountType,
-                  itemList: ["Saving", "Current", "Other"],
+                  itemList: const ["Saving", "Current", "Other"],
                   onChange: (val) {
                     _selectAccountType = val!;
                   },
@@ -215,40 +215,36 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                     childAspectRatio: 1.8,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      ...bankImageList
-                          .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _selectBank = e;
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 1.w, vertical: 1.w),
-                                decoration: BoxDecoration(
+                      ...bankImageList.map(
+                        (e) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectBank = e;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 1.w, vertical: 1.w),
+                            decoration: BoxDecoration(
+                                color: _selectBank == e
+                                    ? const Color(0xFFEEE5FF)
+                                    : const Color(0xFFF1F1FA),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
                                     color: _selectBank == e
-                                        ? const Color(0xFFEEE5FF)
-                                        : const Color(0xFFF1F1FA),
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                        color: _selectBank == e
-                                            ? AppColors.buttonColor
-                                            : const Color(0xFFF1F1FA))),
-                                alignment: Alignment.center,
-                                child: Image.asset(e,
-                                    height: SizerUtil.deviceType ==
-                                            DeviceType.tablet
-                                        ? 4.h
-                                        : 2.6.h,
-                                    width: SizerUtil.deviceType ==
-                                            DeviceType.tablet
-                                        ? 18.w
-                                        : 12.w),
-                              ),
-                            ),
-                          )
-                          .toList(),
+                                        ? AppColors.buttonColor
+                                        : const Color(0xFFF1F1FA))),
+                            alignment: Alignment.center,
+                            child: Image.asset(e,
+                                height: Device.screenType == ScreenType.tablet
+                                    ? 4.h
+                                    : 2.6.h,
+                                width: Device.screenType == ScreenType.tablet
+                                    ? 18.w
+                                    : 12.w),
+                          ),
+                        ),
+                      ),
                       Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: 1.w, vertical: 1.w),
@@ -269,38 +265,37 @@ class _SetupAccountScreenState extends State<SetupAccountScreen> {
                 SizedBox(height: 2.h),
                 CommonButton(
                     onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (_selectAccountType.isNotEmpty) {
-                            if (_selectBank.isNotEmpty) {
-                              if (_amountController.text.isNotEmpty) {
-                                Provider.of<AppDataStore>(context,
-                                        listen: false)
-                                    .addNewAccount(
-                                  AccountModel(
-                                    id: DateTime.now().microsecondsSinceEpoch,
-                                    accName: _nameController.text,
-                                    accIcon: _selectBank,
-                                    accType: _selectAccountType,
-                                    accBalance:
-                                        double.parse(_amountController.text),
-                                  ),
-                                );
-                                setState(() {
-                                  _allSets = true;
-                                });
-                                Future.delayed(Duration(seconds: 1),(){
+                      if (_formKey.currentState!.validate()) {
+                        if (_selectAccountType.isNotEmpty) {
+                          if (_selectBank.isNotEmpty) {
+                            if (_amountController.text.isNotEmpty) {
+                              Provider.of<AppDataStore>(context, listen: false)
+                                  .addNewAccount(
+                                AccountModel(
+                                  id: DateTime.now().microsecondsSinceEpoch,
+                                  accName: _nameController.text,
+                                  accIcon: _selectBank,
+                                  accType: _selectAccountType,
+                                  accBalance:
+                                      double.parse(_amountController.text),
+                                ),
+                              );
+                              setState(() {
+                                _allSets = true;
+                              });
+                              Future.delayed(const Duration(seconds: 1), () {
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, "/dashBoard", (route) => false);
-                                });
-                              } else {
-                                Fluttertoast.showToast(
-                                    msg: "Please enter amount");
-                              }
+                              });
                             } else {
-                              Fluttertoast.showToast(msg: "Please select Bank");
+                              Fluttertoast.showToast(
+                                  msg: "Please enter amount");
                             }
+                          } else {
+                            Fluttertoast.showToast(msg: "Please select Bank");
                           }
                         }
+                      }
                     },
                     title: StringRes.continues),
               ],

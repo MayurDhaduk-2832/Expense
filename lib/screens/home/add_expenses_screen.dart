@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker/Utils/size_utils.dart';
@@ -22,7 +23,7 @@ import '../../widgets/custom_drop_down_field.dart';
 import '../../widgets/custom_text_field.dart';
 
 class AddExpensesScreen extends StatefulWidget {
-  const AddExpensesScreen({Key? key}) : super(key: key);
+  const AddExpensesScreen({super.key});
 
   @override
   State<AddExpensesScreen> createState() => _AddExpensesScreenState();
@@ -45,16 +46,13 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
   @override
   Widget build(BuildContext context) {
     accountList.clear();
-    Provider
-        .of<AppDataStore>(context, listen: false)
+    Provider.of<AppDataStore>(context, listen: false)
         .accountList
         .forEach((element) {
       accountList.add(element.accName!);
     });
-    IncomeExpenseModel model = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as IncomeExpenseModel;
+    IncomeExpenseModel model =
+        ModalRoute.of(context)!.settings.arguments as IncomeExpenseModel;
     if (model.id != null) {
       _isCreateView = false;
       _amountController.text = model.balance!.toString();
@@ -64,14 +62,13 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
       _setRepeat.value = model.repeat!;
       _descriptionController.text = model.description!;
       if (model.image != null && model.image!.isNotEmpty) {
-        print("===>>>>>>>>> ${model.image}");
-        _selectImage.value = File("${Provider
-            .of<AppDataStore>(context, listen: false)
-            .appDirectoryPath}/image${model.id}.png");
+        log("===>>>>>>>>> ${model.image}");
+        _selectImage.value = File(
+            "${Provider.of<AppDataStore>(context, listen: false).appDirectoryPath}/image${model.id}.png");
       }
     }
     if (model.type == StringRes.income) {
-    _isIncomeView = true;
+      _isIncomeView = true;
     }
     return Scaffold(
       body: _addAccountScreen(model),
@@ -89,7 +86,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
             child: Form(
               key: _formKey,
               child: Container(
-                color:_isIncomeView
+                color: _isIncomeView
                     ? const Color(0xFF00A86B)
                     : const Color(0xFFFD3C4A),
                 child: Column(
@@ -104,11 +101,12 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: CommonBackButton(
-                                color: AppColors.whiteTextColor,
-                              )),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: CommonBackButton(
+                              color: AppColors.whiteTextColor,
+                            ),
+                          ),
                           Text(
                             model.type!,
                             style: TextStyle(
@@ -137,7 +135,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                       child: TextField(
                         controller: _amountController,
                         style: TextStyle(
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
+                          fontSize: Device.screenType == ScreenType.tablet
                               ? 30.sp
                               : 36.sp,
                           color: AppColors.whiteTextColor,
@@ -150,21 +148,20 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                           border: InputBorder.none,
                           hintText: "0",
                           hintStyle: TextStyle(
-                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                            fontSize: Device.screenType == ScreenType.tablet
                                 ? 30.sp
                                 : 36.sp,
                             color: AppColors.whiteTextColor,
                             fontWeight: FontWeight.w700,
                           ),
                           prefixIconConstraints:
-                          BoxConstraints(minWidth: 0, minHeight: 0),
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
                           prefixIcon: Padding(
-                            padding: EdgeInsets.only(right: 3),
+                            padding: const EdgeInsets.only(right: 3),
                             child: Text(
                               "\$",
                               style: TextStyle(
-                                fontSize:
-                                SizerUtil.deviceType == DeviceType.tablet
+                                fontSize: Device.screenType == ScreenType.tablet
                                     ? 30.sp
                                     : 36.sp,
                                 color: AppColors.whiteTextColor,
@@ -179,7 +176,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                     Container(
                       padding: EdgeInsets.only(
                           left: 5.33.w, right: 5.33.w, bottom: 4.h, top: 3.h),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(32),
@@ -190,19 +187,21 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                         children: [
                           CustomDropDownField(
                               title: "Category",
-                              selectedValue: _selectCategory.isEmpty ? null : _selectCategory,
+                              selectedValue: _selectCategory.isEmpty
+                                  ? null
+                                  : _selectCategory,
                               onChange: (val) {
                                 _selectCategory = val!;
                               },
                               itemList: _isIncomeView
                                   ? ["Salary", "Passive Income", "Other"]
                                   : [
-                                "Shopping",
-                                "Subscription",
-                                "Food",
-                                "Transportation",
-                                "Other"
-                              ]),
+                                      "Shopping",
+                                      "Subscription",
+                                      "Food",
+                                      "Transportation",
+                                      "Other"
+                                    ]),
                           SizedBox(height: 2.h),
                           CustomTextField(
                             hintText: "Description",
@@ -212,7 +211,9 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                           CustomDropDownField(
                               title: "Wallet",
                               itemList: accountList,
-                              selectedValue: _selectAccount.isEmpty ? null : _selectAccount,
+                              selectedValue: _selectAccount.isEmpty
+                                  ? null
+                                  : _selectAccount,
                               onChange: (val) {
                                 _selectAccount = val!;
                               }),
@@ -223,44 +224,46 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                                 return _selectImage.value.path.isNotEmpty
                                     ? imageWidget()
                                     : GestureDetector(
-                                  onTap: () {
-                                    showBottomSheet(context);
-                                  },
-                                  child: DottedBorder(
-                                    color:
-                                    const Color.fromRGBO(241, 241, 250, 1),
-                                    strokeWidth: 1.2,
-                                    radius: Radius.circular(20),
-                                    dashPattern: [10, 7],
-                                    borderType: BorderType.RRect,
-                                    child: Container(
-                                      padding:
-                                      EdgeInsets.symmetric(vertical: 2.h),
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(StringRes.attachIcon,
-                                              height: SizerUtil.deviceType ==
-                                                  DeviceType.tablet
-                                                  ? 10.sp
-                                                  : 15.sp),
-                                          SizedBox(width: 4.w),
-                                          Text(
-                                            "Add attachment",
-                                            style: TextStyle(
-                                                color: const Color(0xFF91919F),
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: SizeUtil.f13),
+                                        onTap: () {
+                                          showBottomSheet(context);
+                                        },
+                                        child: DottedBorder(
+                                          color: const Color.fromRGBO(
+                                              241, 241, 250, 1),
+                                          strokeWidth: 1.2,
+                                          radius: const Radius.circular(20),
+                                          dashPattern: const [10, 7],
+                                          borderType: BorderType.RRect,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2.h),
+                                            alignment: Alignment.center,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                    StringRes.attachIcon,
+                                                    height: Device.screenType ==
+                                                            ScreenType.tablet
+                                                        ? 10.sp
+                                                        : 15.sp),
+                                                SizedBox(width: 4.w),
+                                                Text(
+                                                  "Add attachment",
+                                                  style: TextStyle(
+                                                      color: const Color(
+                                                          0xFF91919F),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: SizeUtil.f13),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                        ),
+                                      );
                               }),
-
                           SizedBox(height: 2.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -287,8 +290,8 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                               ),
                               ValueListenableBuilder(
                                   valueListenable: _repeat,
-                                  builder: (context, bool selectedValue,
-                                      child) {
+                                  builder:
+                                      (context, bool selectedValue, child) {
                                     return CupertinoSwitch(
                                         value: selectedValue,
                                         onChanged: (val) {
@@ -301,8 +304,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                                         },
                                         activeColor: AppColors.buttonColor,
                                         trackColor: const Color(0xFFEEE5FF));
-                                  }
-                              ),
+                                  }),
                             ],
                           ),
                           ValueListenableBuilder(
@@ -310,89 +312,89 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                               builder: (context, bool selectedValue, child) {
                                 return selectedValue
                                     ? Padding(
-                                  padding: EdgeInsets.only(top: 2.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                        padding: EdgeInsets.only(top: 2.h),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              "Frequency",
-                                              style: TextStyle(
-                                                  color:
-                                                  AppColors.textColor,
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  fontSize: SizeUtil.f12),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Frequency",
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppColors.textColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: SizeUtil.f12),
+                                                  ),
+                                                  SizedBox(height: 0.5.h),
+                                                  Text(
+                                                    "Yearly - December 29",
+                                                    style: TextStyle(
+                                                        color: const Color(
+                                                            0xFF91919F),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: SizeUtil.f10),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                            SizedBox(height: 0.5.h),
-                                            Text(
-                                              "Yearly - December 29",
-                                              style: TextStyle(
-                                                  color: const Color(
-                                                      0xFF91919F),
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  fontSize: SizeUtil.f10),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "End After",
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppColors.textColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: SizeUtil.f12),
+                                                  ),
+                                                  SizedBox(height: 0.5.h),
+                                                  Text(
+                                                    "29 December 2025",
+                                                    style: TextStyle(
+                                                        color: const Color(
+                                                            0xFF91919F),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: SizeUtil.f10),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                showRepeatTransactionBottomSheet(
+                                                    context);
+                                              },
+                                              child: Chip(
+                                                backgroundColor:
+                                                    const Color(0xFFEEE5FF),
+                                                label: Text(
+                                                  " ${StringRes.edit} ",
+                                                  style: TextStyle(
+                                                      fontSize: SizeUtil.f9,
+                                                      color:
+                                                          AppColors.buttonColor,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                            )
                                           ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "End After",
-                                              style: TextStyle(
-                                                  color:
-                                                  AppColors.textColor,
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  fontSize: SizeUtil.f12),
-                                            ),
-                                            SizedBox(height: 0.5.h),
-                                            Text(
-                                              "29 December 2025",
-                                              style: TextStyle(
-                                                  color: const Color(
-                                                      0xFF91919F),
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  fontSize: SizeUtil.f10),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showRepeatTransactionBottomSheet(
-                                              context);
-                                        },
-                                        child: Chip(
-                                          backgroundColor:
-                                          Color(0xFFEEE5FF),
-                                          label: Text(
-                                            " ${StringRes.edit} ",
-                                            style: TextStyle(
-                                                fontSize: SizeUtil.f9,
-                                                color:
-                                                AppColors.buttonColor,
-                                                fontWeight:
-                                                FontWeight.w500),
-                                          ),
                                         ),
                                       )
-                                    ],
-                                  ),
-                                )
                                     : const SizedBox();
                               }),
                           SizedBox(height: 3.h),
@@ -405,10 +407,10 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                                       Fluttertoast.showToast(
                                           msg: "Please enter amount");
                                     } else {
-                                      AccountModel accountModel = AccountModel();
-                                      Provider
-                                          .of<AppDataStore>(context,
-                                          listen: false)
+                                      AccountModel accountModel =
+                                          AccountModel();
+                                      Provider.of<AppDataStore>(context,
+                                              listen: false)
                                           .accountList
                                           .forEach((element) {
                                         if (element.accName == _selectAccount) {
@@ -416,71 +418,72 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                                         }
                                       });
                                       int id =
-                                          DateTime
-                                              .now()
-                                              .microsecondsSinceEpoch;
+                                          DateTime.now().microsecondsSinceEpoch;
                                       String imagePath = '';
                                       if (_selectImage.value.path.isNotEmpty) {
-                                        imagePath =
-                                        await saveImage(id, _selectImage.value);
+                                        imagePath = await saveImage(
+                                            id, _selectImage.value);
                                       }
                                       IncomeExpenseModel newModel =
-                                      IncomeExpenseModel(
-                                          id: _isCreateView ? id : model.id,
-                                          balance: double.parse(
-                                              _amountController.text),
-                                          category: _selectCategory,
-                                          description:
-                                          _descriptionController.text,
-                                          endAfter: "",
-                                          repeat: _repeat.value,
-                                          frequency: "",
-                                          image: imagePath,
-                                          account: accountModel);
+                                          IncomeExpenseModel(
+                                              id: _isCreateView ? id : model.id,
+                                              balance: double.parse(
+                                                  _amountController.text),
+                                              category: _selectCategory,
+                                              description:
+                                                  _descriptionController.text,
+                                              endAfter: "",
+                                              repeat: _repeat.value,
+                                              frequency: "",
+                                              image: imagePath,
+                                              account: accountModel);
 
-                                      if(_isCreateView){
+                                      if (_isCreateView) {
                                         Provider.of<AppDataStore>(context,
-                                            listen: false)
+                                                listen: false)
                                             .updateAccountBalance(accountModel,
-                                            action: _isIncomeView
-                                                ? BalanceAction.add
-                                                : BalanceAction.remove,
-                                            amount: double.parse(
-                                                _amountController.text));
-                                      }else {
+                                                action: _isIncomeView
+                                                    ? BalanceAction.add
+                                                    : BalanceAction.remove,
+                                                amount: double.parse(
+                                                    _amountController.text));
+                                      } else {
                                         Provider.of<AppDataStore>(context,
-                                            listen: false)
+                                                listen: false)
                                             .updateAccountBalance(accountModel,
-                                            action: _isIncomeView
-                                                ? BalanceAction.add
-                                                : BalanceAction.remove,
-                                            amount: double.parse(
-                                                _amountController.text) - model.balance!);
+                                                action: _isIncomeView
+                                                    ? BalanceAction.add
+                                                    : BalanceAction.remove,
+                                                amount: double.parse(
+                                                        _amountController
+                                                            .text) -
+                                                    model.balance!);
                                       }
 
                                       if (_isIncomeView) {
                                         newModel.type = StringRes.income;
-                                        if(!_isCreateView){
+                                        if (!_isCreateView) {
                                           Provider.of<AppDataStore>(context,
-                                              listen: false)
+                                                  listen: false)
                                               .removeIncomeItem(newModel);
                                         }
                                         Provider.of<AppDataStore>(context,
-                                            listen: false)
+                                                listen: false)
                                             .addIncomeItem(newModel);
                                         Navigator.pop(context);
                                       } else {
                                         newModel.type = StringRes.expense;
-                                        if(!_isCreateView){
+                                        if (!_isCreateView) {
                                           Provider.of<AppDataStore>(context,
-                                              listen: false)
+                                                  listen: false)
                                               .removeExpenseItem(newModel);
                                         }
                                         Provider.of<AppDataStore>(context,
-                                            listen: false)
+                                                listen: false)
                                             .addExpenseItem(newModel);
                                         Provider.of<AppDataStore>(context,
-                                            listen: false).updateBudget(newModel);
+                                                listen: false)
+                                            .updateBudget(newModel);
                                         Navigator.pop(context);
                                       }
                                     }
@@ -555,7 +558,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                   width: 35,
                   height: 5,
                   decoration: BoxDecoration(
-                      color: Color(0xFFD3BDFF),
+                      color: const Color(0xFFD3BDFF),
                       borderRadius: BorderRadius.circular(30)),
                 ),
                 SizedBox(
@@ -603,7 +606,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
           margin: EdgeInsets.symmetric(horizontal: 1.5.w),
           padding: EdgeInsets.symmetric(vertical: 2.h),
           decoration: BoxDecoration(
-              color: Color(0xFFEEE5FF),
+              color: const Color(0xFFEEE5FF),
               borderRadius: BorderRadius.circular(16)),
           alignment: Alignment.center,
           child: Column(
@@ -654,7 +657,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                   width: 35,
                   height: 5,
                   decoration: BoxDecoration(
-                      color: Color(0xFFD3BDFF),
+                      color: const Color(0xFFD3BDFF),
                       borderRadius: BorderRadius.circular(30)),
                 ),
                 SizedBox(
@@ -665,26 +668,26 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                     builder: (context, bool selectedValue, child) {
                       return selectedValue
                           ? Row(
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: _dropDownField(title: "Year")),
-                          SizedBox(width: 2.5.w),
-                          Expanded(
-                              flex: 1,
-                              child: _dropDownField(title: "Dec")),
-                          SizedBox(width: 2.5.w),
-                          Expanded(
-                              flex: 1,
-                              child: _dropDownField(title: "29")),
-                        ],
-                      )
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: _dropDownField(title: "Year")),
+                                SizedBox(width: 2.5.w),
+                                Expanded(
+                                    flex: 1,
+                                    child: _dropDownField(title: "Dec")),
+                                SizedBox(width: 2.5.w),
+                                Expanded(
+                                    flex: 1,
+                                    child: _dropDownField(title: "29")),
+                              ],
+                            )
                           : _dropDownField(
-                        title: "Frequency",
-                        onTap: () {
-                          isFrequency.value = !isFrequency.value;
-                        },
-                      );
+                              title: "Frequency",
+                              onTap: () {
+                                isFrequency.value = !isFrequency.value;
+                              },
+                            );
                     }),
                 SizedBox(
                   height: 2.h,
@@ -694,32 +697,32 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                     builder: (context, bool selectedValue, child) {
                       return selectedValue
                           ? Row(
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: _dropDownField(title: "Date")),
-                          SizedBox(width: 2.5.w),
-                          Expanded(
-                            flex: 1,
-                            child: ValueListenableBuilder(
-                                valueListenable: selectDate,
-                                builder: (context, DateTime selectedValue,
-                                    child) {
-                                  return _dropDownField(
-                                      title: dateFormat.format(
-                                        selectedValue,
-                                      ),
-                                      onTap: () => datePicker());
-                                }),
-                          ),
-                        ],
-                      )
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: _dropDownField(title: "Date")),
+                                SizedBox(width: 2.5.w),
+                                Expanded(
+                                  flex: 1,
+                                  child: ValueListenableBuilder(
+                                      valueListenable: selectDate,
+                                      builder: (context, DateTime selectedValue,
+                                          child) {
+                                        return _dropDownField(
+                                            title: dateFormat.format(
+                                              selectedValue,
+                                            ),
+                                            onTap: () => datePicker());
+                                      }),
+                                ),
+                              ],
+                            )
                           : _dropDownField(
-                        title: "End After",
-                        onTap: () {
-                          isEndAfter.value = !isEndAfter.value;
-                        },
-                      );
+                              title: "End After",
+                              onTap: () {
+                                isEndAfter.value = !isEndAfter.value;
+                              },
+                            );
                     }),
                 SizedBox(
                   height: 2.h,
@@ -745,7 +748,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
         context: context,
         builder: (context) {
           return Dialog(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             backgroundColor: Colors.white,
             child: Padding(
@@ -775,7 +778,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
 
   /// date picker
   Future datePicker() {
-    DateTime _selectDate = DateTime.now();
+    DateTime selectDate = DateTime.now();
     return showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -812,7 +815,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            selectDate.value = _selectDate;
+                            selectDate = selectDate;
                             Navigator.pop(context);
                           },
                           child: Text(
@@ -831,18 +834,14 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                     child: CupertinoDatePicker(
                       initialDateTime: DateTime.now(),
                       onDateTimeChanged: (DateTime newdate) {
-                        _selectDate = newdate;
-                        print(newdate);
+                        selectDate = newdate;
+                        log("=======>>>  $newdate");
                       },
                       use24hFormat: true,
                       maximumDate:
-                      DateTime.now().add(const Duration(days: 3650)),
-                      minimumYear: DateTime
-                          .now()
-                          .year - 10,
-                      maximumYear: DateTime
-                          .now()
-                          .year + 10,
+                          DateTime.now().add(const Duration(days: 3650)),
+                      minimumYear: DateTime.now().year - 10,
+                      maximumYear: DateTime.now().year + 10,
                       minuteInterval: 1,
                       mode: CupertinoDatePickerMode.date,
                     )),
@@ -859,7 +858,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 1,
-            color: Color.fromRGBO(241, 241, 250, 1),
+            color: const Color.fromRGBO(241, 241, 250, 1),
           ),
           borderRadius: BorderRadius.circular(16),
         ),
@@ -890,7 +889,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
   Future<String> saveImage(int id, File image) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
-    print("==>>>> ${appDocPath}");
+    log("==>>>> $appDocPath");
     final File saveImage = await image.copy('$appDocPath/image$id.png');
     return saveImage.path;
   }
